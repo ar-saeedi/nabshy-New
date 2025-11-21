@@ -13,7 +13,7 @@ const config: Config = {
         'reform-black': '#000000',
       },
       fontFamily: {
-        inter: ['var(--font-inter)', 'Inter', 'sans-serif'],
+        montserrat: ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
       },
       fontSize: {
         'hero-title': '400px',
