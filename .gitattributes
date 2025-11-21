@@ -1,0 +1,18 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# TypeScript files
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
+
+# JavaScript files
+*.js linguist-detectable=true
+*.jsx linguist-detectable=true
+
+# CSS files
+*.css linguist-detectable=true
+
+# Exclude certain files from language statistics
+*.html linguist-vendored
+*.json linguist-generated=true
+package-lock.json linguist-generated=true
