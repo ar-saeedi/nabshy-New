@@ -1,18 +1,25 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# TypeScript files
-*.ts linguist-detectable=true
-*.tsx linguist-detectable=true
+# Mark this as a TypeScript project
+*.ts linguist-detectable=true linguist-language=TypeScript
+*.tsx linguist-detectable=true linguist-language=TypeScript
 
 # JavaScript files
-*.js linguist-detectable=true
-*.jsx linguist-detectable=true
+*.js linguist-detectable=true linguist-language=JavaScript
+*.jsx linguist-detectable=true linguist-language=JavaScript
 
-# CSS files
-*.css linguist-detectable=true
+# CSS/Tailwind files
+*.css linguist-detectable=true linguist-language=CSS
 
-# Exclude certain files from language statistics
-*.html linguist-vendored
+# Exclude HTML files completely from language statistics
+*.html linguist-vendored=true linguist-documentation=true
+public/*.html linguist-vendored=true
+
+# Exclude generated/lock files
 *.json linguist-generated=true
 package-lock.json linguist-generated=true
+next-env.d.ts linguist-generated=true
+
+# Vendor node_modules
+node_modules/* linguist-vendored
