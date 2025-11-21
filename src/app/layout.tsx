@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
@@ -9,13 +9,14 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Reform - Branding Studio',
-  description: 'Reform is a branding studio that specializes in elevating brands through the power of storytelling.',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
+  title: 'Nabshy New - Branding Studio',
+  description: 'Modern branding studio website built with React, Next.js, TypeScript, and Tailwind CSS. Specializing in elevating brands through the power of storytelling.',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({
