@@ -719,7 +719,7 @@ export default function Homepage() {
                   }}
                 >
                   <blockquote className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[52px] font-medium leading-[1.3] text-reform-black mb-8 md:mb-12 text-left">
-                    "{testimonials[currentTestimonial].quote}"
+                    &ldquo;{testimonials[currentTestimonial].quote}&rdquo;
                   </blockquote>
                   <div className="text-[18px] sm:text-[20px] md:text-[24px] text-reform-black text-left">
                     <div className="font-bold mb-1">{testimonials[currentTestimonial].name}</div>
@@ -741,7 +741,7 @@ export default function Homepage() {
             <h2 className="text-[36px] sm:text-[44px] md:text-[53.8px] lg:text-[64px] font-bold leading-[1.2] uppercase text-reform-black">
               Ready to transform<br />
               your vision?<br />
-              We're here to help.
+              We&apos;re here to help.
             </h2>
             <Link href="/contact" className="group relative flex items-center pb-1.5 shrink-0">
               <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-black tracking-wide">
