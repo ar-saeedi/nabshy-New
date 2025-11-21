@@ -3,6 +3,7 @@
 # 🎨 Nabshy New
 
 ### Modern Branding Studio Website
+*Built with React, Next.js, TypeScript & Tailwind CSS*
 
 A stunning, fully responsive website built with cutting-edge web technologies. Features smooth animations, elegant design, and exceptional user experience.
 
