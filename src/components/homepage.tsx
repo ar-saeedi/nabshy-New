@@ -400,7 +400,15 @@ export default function Homepage() {
                       {card.description}
                     </p>
                     <Link
-                      href="/projects"
+                      href={
+                        index === 0
+                          ? '/projects?category=brand-strategy'
+                          : index === 1
+                          ? '/projects?category=visual-identity'
+                          : index === 2
+                          ? '/projects?category=website'
+                          : '/projects'
+                      }
                       className={`transition-all duration-300 ${hoveredCard === index ? 'opacity-100 h-auto' : 'opacity-0 h-0 pointer-events-none'}`}
                     >
                       <span className="text-[16px] md:text-[18px] font-semibold leading-[22px] text-reform-black underline">
