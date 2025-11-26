@@ -37,6 +37,7 @@ const projects = [
 ]
 
 export default function Projects() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerProgress, setFooterProgress] = useState(0)
   const [activeFilter, setActiveFilter] = useState('ALL')
@@ -102,54 +103,84 @@ export default function Projects() {
   })
 
   return (
-    <div className="min-h-screen bg-reform-red px-8 py-8">
-      <header className="w-full max-w-[1860px] mx-auto flex justify-between items-start mb-16 animate-slide-up">
-        <Link href="/" className="text-[24px] sm:text-[28px] md:text-[32px] font-bold text-reform-black leading-none text-appear">
+    <div className="min-h-screen bg-reform-red px-4 sm:px-6 md:px-8 py-6 md:py-8">
+      <header className="w-full max-w-[1860px] mx-auto flex justify-between items-start gap-4 mb-10 md:mb-16 animate-slide-up">
+        <Link href="/" className="text-[20px] xs:text-[22px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold text-reform-black leading-none text-appear">
           REFORM
         </Link>
-        <nav className="flex gap-8 md:gap-12 lg:gap-16">
-          <Link href="/projects" className="text-[14px] sm:text-[15px] md:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-1">
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex flex-row gap-8 lg:gap-12 xl:gap-16">
+          <Link href="/projects" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-1">
             PROJECTS
           </Link>
-          <Link href="/studio" className="text-[14px] sm:text-[15px] md:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-2">
+          <Link href="/studio" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-2">
             STUDIO
           </Link>
-          <Link href="/contact" className="text-[14px] sm:text-[15px] md:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-3">
+          <Link href="/contact" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-3">
             CONTACT
           </Link>
         </nav>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden flex flex-col gap-1.5 p-2 z-50"
+          aria-label="Toggle menu"
+        >
+          <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+          <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+          <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+        </button>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 bg-reform-red z-40 flex items-center justify-center">
+            <nav className="flex flex-col gap-8 items-center">
+              <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
+                PROJECTS
+              </Link>
+              <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
+                STUDIO
+              </Link>
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
+                CONTACT
+              </Link>
+            </nav>
+          </div>
+        )}
       </header>
 
       <main className="w-full max-w-[1860px] mx-auto animate-slide-up">
-        <div className="mb-8">
-          <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-bold text-reform-black uppercase mb-4">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-[28px] xs:text-[32px] sm:text-[36px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold text-reform-black uppercase mb-3 md:mb-4">
             PROJECTS.
           </h1>
-          <div className="flex flex-wrap items-center gap-3 text-[13px] sm:text-[14px] md:text-[15px] tracking-wide">
+          <div className="flex flex-wrap items-center gap-2 xs:gap-2.5 sm:gap-3 text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] tracking-wide">
             <button 
               onClick={() => handleFilterChange('ALL')}
-              className={`transition-all ${activeFilter === 'ALL' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
+              className={`transition-all whitespace-nowrap ${activeFilter === 'ALL' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
             >
               ALL
             </button>
             <span className="text-reform-black/70">/</span>
             <button 
               onClick={() => handleFilterChange('BRAND STRATEGY')}
-              className={`transition-all ${activeFilter === 'BRAND STRATEGY' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
+              className={`transition-all whitespace-nowrap ${activeFilter === 'BRAND STRATEGY' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
             >
               BRAND STRATEGY
             </button>
             <span className="text-reform-black/70">/</span>
             <button 
               onClick={() => handleFilterChange('VISUAL IDENTITY')}
-              className={`transition-all ${activeFilter === 'VISUAL IDENTITY' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
+              className={`transition-all whitespace-nowrap ${activeFilter === 'VISUAL IDENTITY' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
             >
               VISUAL IDENTITY
             </button>
             <span className="text-reform-black/70">/</span>
             <button 
               onClick={() => handleFilterChange('WEBSITE')}
-              className={`transition-all ${activeFilter === 'WEBSITE' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
+              className={`transition-all whitespace-nowrap ${activeFilter === 'WEBSITE' ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
             >
               WEBSITE
             </button>

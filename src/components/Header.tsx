@@ -5,7 +5,6 @@ import Link from 'next/link'
 export default function Header() {
   return (
     <div className="w-full max-w-[1860px] flex justify-between items-start gap-4 px-4 md:px-8 py-6 md:py-8">
-      {/* Tagline - 3 lines */}
       <div className="flex-1 max-w-[700px]">
         <h1 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] font-extralight leading-[1.25] text-reform-black">
           Reform is a branding studio that<br />
@@ -14,7 +13,6 @@ export default function Header() {
         </h1>
       </div>
 
-      {/* Navigation Menu */}
       <nav className="flex flex-col gap-2.5 min-w-[102px]">
         <Link 
           href="/projects" 

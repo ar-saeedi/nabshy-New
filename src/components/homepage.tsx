@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function Homepage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -213,22 +214,23 @@ export default function Homepage() {
 
   return (
     <div className="relative">
-      <header className="sticky top-0 flex flex-col items-center justify-between px-8 py-8 bg-reform-red min-h-screen z-0">
+      <header className="sticky top-0 flex flex-col items-center justify-between px-4 sm:px-6 md:px-8 py-6 md:py-8 bg-reform-red min-h-screen z-0">
         <div className="w-full max-w-[1860px] flex justify-between items-start gap-4">
           <div className="flex-1 max-w-[700px]">
-            <h1 className="text-[36px] font-bold leading-[43px] text-reform-black">
+            <h1 className="text-[20px] xs:text-[24px] sm:text-[28px] md:text-[32px] lg:text-[36px] font-bold leading-[1.2] text-reform-black">
               Reform is a branding studio that<br />
               specializes in elevating brands<br />
               through the power of storytelling.
             </h1>
           </div>
 
-          <nav className="flex flex-col gap-2.5 min-w-[102px]">
+          {/* Desktop Navigation */}
+          <nav className="hidden xl:flex flex-col gap-2.5 min-w-[102px]">
             <Link
               href="/projects"
               className="group relative flex items-center pb-1.5 transition-all"
             >
-              <span className="text-[20px] font-bold leading-[22px] text-reform-black">
+              <span className="text-[18px] lg:text-[20px] font-bold leading-[22px] text-reform-black whitespace-nowrap">
                 PROJECTS
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
@@ -238,7 +240,7 @@ export default function Homepage() {
               href="/studio"
               className="group relative flex items-center pb-1.5 transition-all"
             >
-              <span className="text-[20px] font-bold leading-[22px] text-reform-black">
+              <span className="text-[18px] lg:text-[20px] font-bold leading-[22px] text-reform-black whitespace-nowrap">
                 STUDIO
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
@@ -248,30 +250,78 @@ export default function Homepage() {
               href="/contact"
               className="group relative flex items-center pb-1.5 transition-all"
             >
-              <span className="text-[20px] font-bold leading-[22px] text-reform-black">
+              <span className="text-[18px] lg:text-[20px] font-bold leading-[22px] text-reform-black whitespace-nowrap">
                 CONTACT
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
             </Link>
           </nav>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="xl:hidden flex flex-col gap-1.5 p-2 z-50 relative"
+            aria-label="Toggle menu"
+          >
+            <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          </button>
         </div>
 
+        {/* Mobile Side Menu Overlay */}
+        {mobileMenuOpen && (
+          <div 
+            className="xl:hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <div 
+              className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-reform-red shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <nav className="flex flex-col gap-8 items-start p-8 mt-20">
+                <Link
+                  href="/projects"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity"
+                >
+                  PROJECTS
+                </Link>
+                <Link
+                  href="/studio"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity"
+                >
+                  STUDIO
+                </Link>
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity"
+                >
+                  CONTACT
+                </Link>
+              </nav>
+            </div>
+          </div>
+        )}
+
         <div className="w-full max-w-[1860px] flex flex-col items-center justify-end gap-5 flex-1">
-          <div className="relative w-full flex items-center justify-center my-auto">
-            <h2 className="text-[clamp(120px,20vw,460px)] font-bold leading-[0.9] text-reform-black select-none tracking-tight">
+          <div className="relative w-full flex items-center justify-center my-auto px-2">
+            <h2 className="text-[clamp(60px,15vw,460px)] font-bold leading-[0.9] text-reform-black select-none tracking-tight text-center">
               REFORM
             </h2>
           </div>
 
-          <div className="w-full flex justify-between items-center px-0 py-1">
+          <div className="w-full flex flex-col xs:flex-row justify-between items-center xs:items-end gap-3 xs:gap-2 px-0 py-1 text-center xs:text-left">
             <div className="flex flex-col">
-              <span className="text-[28px] font-bold leading-[34px] text-reform-black">
+              <span className="text-[14px] xs:text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold leading-[1.2] text-reform-black">
                 CIRCA 2021
               </span>
             </div>
 
             <div className="flex flex-col">
-              <span className="text-[28px] font-bold leading-[34px] text-reform-black">
+              <span className="text-[14px] xs:text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold leading-[1.2] text-reform-black">
                 BASED IN BRUSSELS
               </span>
             </div>
@@ -283,27 +333,27 @@ export default function Homepage() {
         ref={sectionRef}
         className="relative bg-black z-10 overflow-hidden rounded-t-[40px]"
       >
-        <div className="flex flex-col px-8 pt-16 pb-0">
-          <div className="w-full max-w-[1860px] mx-auto flex justify-between items-start gap-8 mb-20">
-            <div className="flex flex-col w-[562px]">
-              <h2 className="text-[53.8px] font-extralight leading-[64px] uppercase text-reform-red">
+        <div className="flex flex-col px-4 sm:px-6 md:px-8 pt-12 md:pt-16 pb-0">
+          <div className="w-full max-w-[1860px] mx-auto flex flex-col lg:flex-row justify-between items-start gap-6 md:gap-8 mb-12 md:mb-16 lg:mb-20">
+            <div className="flex flex-col w-full lg:w-[562px]">
+              <h2 className="text-[24px] xs:text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[53.8px] font-extralight leading-[1.2] uppercase text-reform-red">
                 Redefining the Standards of Creativity.
               </h2>
             </div>
 
-            <div className="relative flex flex-col w-[461px] h-[192px]">
-              <div className="absolute top-0 left-0 right-0">
-                <p className="text-[18px] font-extralight leading-[22px] text-reform-red">
+            <div className="flex flex-col w-full lg:w-[461px] gap-4 lg:gap-6">
+              <div>
+                <p className="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[18px] font-extralight leading-[1.5] text-reform-red">
                   At REFORM, we believe in reshaping perspectives. Our team combines expertise in strategy, design, and technology to deliver transformative experiences that challenge the ordinary.
                 </p>
               </div>
 
               <Link
                 href="/about"
-                className="absolute left-0 top-[165px] group"
+                className="group inline-flex w-fit"
               >
                 <div className="relative flex items-center pb-1.5">
-                  <span className="text-[20px] font-extralight leading-[22px] text-reform-red">
+                  <span className="text-[16px] sm:text-[18px] lg:text-[20px] font-extralight leading-[22px] text-reform-red">
                     ABOUT US
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-red"></div>
@@ -777,47 +827,47 @@ export default function Homepage() {
             <div className="w-full max-w-[1860px] mx-auto h-full flex flex-col justify-between">
 
               <div
-                className="flex justify-between items-start transition-opacity duration-500"
+                className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-12 transition-opacity duration-500"
                 style={{
                   opacity: footerProgress > 0.3 ? 1 : 0,
                 }}
               >
-                <div className="flex gap-16">
-                  <div className="flex flex-col gap-6">
-                    <h3 className="text-[14px] font-extralight uppercase text-reform-red tracking-wider">
+                <div className="flex flex-col xs:flex-row gap-8 xs:gap-12 md:gap-16">
+                  <div className="flex flex-col gap-4 md:gap-6">
+                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase text-reform-red tracking-wider">
                       NAVIGATE
                     </h3>
-                    <nav className="flex flex-col gap-3">
-                      <Link href="/" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                    <nav className="flex flex-col gap-2 md:gap-3">
+                      <Link href="/" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         Home
                       </Link>
-                      <Link href="/studio" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                      <Link href="/studio" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         Studio
                       </Link>
-                      <Link href="/projects" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                      <Link href="/projects" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         Projects
                       </Link>
-                      <Link href="/contact" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                      <Link href="/contact" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         Contact
                       </Link>
                     </nav>
                   </div>
 
-                  <div className="flex flex-col gap-6">
-                    <h3 className="text-[14px] font-extralight uppercase text-reform-red tracking-wider">
+                  <div className="flex flex-col gap-4 md:gap-6">
+                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase text-reform-red tracking-wider">
                       SOCIAL
                     </h3>
-                    <nav className="flex flex-col gap-3">
-                      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                    <nav className="flex flex-col gap-2 md:gap-3">
+                      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         Instagram
                       </a>
-                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         X
                       </a>
-                      <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                      <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         Behance
                       </a>
-                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
                         LinkedIn
                       </a>
                     </nav>
@@ -825,17 +875,17 @@ export default function Homepage() {
                 </div>
 
                 <div
-                  className="flex flex-col items-end gap-8 transition-opacity duration-500"
+                  className="flex flex-col items-start md:items-end gap-4 md:gap-8 transition-opacity duration-500 w-full md:w-auto"
                   style={{
                     opacity: footerProgress > 0.5 ? 1 : 0,
                   }}
                 >
-                  <h3 className="text-[20px] md:text-[24px] font-medium text-reform-red text-right leading-tight">
+                  <h3 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-medium text-reform-red text-left md:text-right leading-tight">
                     WE WOULD LOVE TO<br />
                     HEAR MORE FROM YOU!
                   </h3>
                   <Link href="/contact" className="group relative flex items-center pb-1.5">
-                    <span className="text-[18px] md:text-[20px] font-semibold leading-[22px] text-reform-red tracking-wide">
+                    <span className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-red tracking-wide">
                       GET IN TOUCH
                     </span>
                     <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-red"></div>
@@ -855,15 +905,15 @@ export default function Homepage() {
               </div>
 
               <div
-                className="flex justify-between items-center transition-opacity duration-500"
+                className="flex flex-col xs:flex-row justify-between items-center gap-3 xs:gap-4 transition-opacity duration-500 text-center xs:text-left"
                 style={{
                   opacity: footerProgress > 0.6 ? 1 : 0,
                 }}
               >
-                <div className="text-[14px] md:text-[16px] font-extralight text-reform-red/70">
+                <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-reform-red/70">
                   ©NABSHY AGENCY Studio 2025
                 </div>
-                <div className="text-[14px] md:text-[16px] font-extralight text-reform-red/70">
+                <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-reform-red/70">
                   Made by Alireza Saeedi
                 </div>
               </div>
