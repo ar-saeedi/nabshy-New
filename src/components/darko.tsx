@@ -12,6 +12,8 @@ const activoSlides = [
 export default function DarkoPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [slideIndex, setSlideIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [direction, setDirection] = useState<'left' | 'right'>('right')
   const [image1Visible, setImage1Visible] = useState(false)
   const [image2Visible, setImage2Visible] = useState(false)
   const [carouselVisible, setCarouselVisible] = useState(false)
@@ -62,11 +64,19 @@ export default function DarkoPage() {
   const totalSlides = activoSlides.length
 
   const handleNext = () => {
+    if (isTransitioning) return
+    setIsTransitioning(true)
+    setDirection('right')
     setSlideIndex((prev) => (prev + 1) % totalSlides)
+    setTimeout(() => setIsTransitioning(false), 500)
   }
 
   const handlePrev = () => {
+    if (isTransitioning) return
+    setIsTransitioning(true)
+    setDirection('left')
     setSlideIndex((prev) => (prev - 1 + totalSlides) % totalSlides)
+    setTimeout(() => setIsTransitioning(false), 500)
   }
 
   return (
@@ -87,11 +97,10 @@ export default function DarkoPage() {
               href="/"
               className="text-[20px] xs:text-[22px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold leading-none text-white text-appear z-50"
             >
-              REFORM
+              NABSHY
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex flex-row gap-8 lg:gap-12 xl:gap-16">
+            <nav className="hidden lg:flex flex-row gap-8 lg:gap-12 xl:gap-16">
               <Link
                 href="/projects"
                 className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1 text-appear text-appear-delay-1"
@@ -99,23 +108,28 @@ export default function DarkoPage() {
                 PROJECTS
               </Link>
               <Link
-                href="/studio"
+                href="/database"
                 className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1 text-appear text-appear-delay-2"
+              >
+                DATABASE
+              </Link>
+              <Link
+                href="/studio"
+                className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1 text-appear text-appear-delay-3"
               >
                 STUDIO
               </Link>
               <Link
                 href="/contact"
-                className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1 text-appear text-appear-delay-3"
+                className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1 text-appear text-appear-delay-4"
               >
                 CONTACT
               </Link>
             </nav>
 
-            {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex flex-col gap-1.5 p-2 z-50 relative"
+              className="lg:hidden flex flex-col gap-1.5 p-2 z-50 relative"
               aria-label="Toggle menu"
             >
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
@@ -123,20 +137,24 @@ export default function DarkoPage() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
             </button>
 
-            {/* Mobile Menu */}
             {mobileMenuOpen && (
-              <div className="md:hidden fixed inset-0 bg-black z-40 flex items-center justify-center">
-                <nav className="flex flex-col gap-8 items-center">
-                  <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-white">
-                    PROJECTS
-                  </Link>
-                  <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-white">
-                    STUDIO
-                  </Link>
-                  <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-white">
-                    CONTACT
-                  </Link>
-                </nav>
+              <div className="lg:hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
+                <div className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-black shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                  <nav className="flex flex-col gap-8 items-start p-8 mt-20">
+                    <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-white hover:opacity-70 transition-opacity">
+                      PROJECTS
+                    </Link>
+                    <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-white hover:opacity-70 transition-opacity">
+                      DATABASE
+                    </Link>
+                    <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-white hover:opacity-70 transition-opacity">
+                      STUDIO
+                    </Link>
+                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-white hover:opacity-70 transition-opacity">
+                      CONTACT
+                    </Link>
+                  </nav>
+                </div>
               </div>
             )}
           </header>
@@ -251,8 +269,17 @@ export default function DarkoPage() {
             </button>
 
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-10">
-              {activoSlides[slideIndex].map((src) => (
-                <div key={src} className="w-full aspect-[16/10] overflow-hidden bg-black">
+              {activoSlides[slideIndex].map((src, idx) => (
+                <div 
+                  key={`${slideIndex}-${src}`} 
+                  className="w-full aspect-[16/10] overflow-hidden bg-black"
+                  style={{
+                    animation: `${direction === 'right' ? 'slideInFromRight' : 'slideInFromLeft'} 0.5s ease-out`,
+                    animationDelay: `${idx * 0.1}s`,
+                    opacity: 0,
+                    animationFillMode: 'forwards'
+                  }}
+                >
                   <Image
                     src={src}
                     alt="Darko gallery image"
@@ -361,11 +388,11 @@ export default function DarkoPage() {
         <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] border-t border-white/20 mb-12" />
 
         <div className="w-full max-w-[1860px] mx-auto px-4 sm:px-6 md:px-8 flex flex-col gap-12 md:gap-16">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-12">
-            <div className="flex gap-16">
-              <div className="flex flex-col gap-4">
-                <h3 className="text-[14px] font-extralight uppercase tracking-wider text-white/80">NAVIGATE</h3>
-                <nav className="flex flex-col gap-2 text-[16px] font-extralight">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-12">
+            <div className="flex flex-col xs:flex-row gap-8 xs:gap-12 md:gap-16">
+              <div className="flex flex-col gap-4 md:gap-6">
+                <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase tracking-wider text-white/80">NAVIGATE</h3>
+                <nav className="flex flex-col gap-2 md:gap-3 text-[14px] sm:text-[16px] md:text-[18px] font-extralight">
                   <Link href="/" className="hover:opacity-70 transition-opacity">
                     Home
                   </Link>
@@ -381,9 +408,9 @@ export default function DarkoPage() {
                 </nav>
               </div>
 
-              <div className="flex flex-col gap-4">
-                <h3 className="text-[14px] font-extralight uppercase tracking-wider text-white/80">SOCIAL</h3>
-                <nav className="flex flex-col gap-2 text-[16px] font-extralight">
+              <div className="flex flex-col gap-4 md:gap-6">
+                <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase tracking-wider text-white/80">SOCIAL</h3>
+                <nav className="flex flex-col gap-2 md:gap-3 text-[14px] sm:text-[16px] md:text-[18px] font-extralight">
                   <a
                     href="https://instagram.com"
                     target="_blank"
@@ -420,14 +447,14 @@ export default function DarkoPage() {
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-4 md:gap-6">
-              <h3 className="text-[18px] md:text-[22px] font-medium text-right leading-tight">
+            <div className="flex flex-col items-start md:items-end gap-4 md:gap-6 w-full md:w-auto">
+              <h3 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-medium text-left md:text-right leading-tight">
                 WE WOULD LOVE TO
                 <br />
                 HEAR MORE FROM YOU!
               </h3>
               <Link href="/contact" className="group relative flex items-center pb-1.5">
-                <span className="text-[16px] md:text-[18px] font-semibold leading-[22px] tracking-wide">
+                <span className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] tracking-wide">
                   GET IN TOUCH
                 </span>
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white" />
@@ -442,16 +469,16 @@ export default function DarkoPage() {
             }`}
           >
             <h2 className="text-[clamp(80px,15vw,260px)] font-bold leading-[0.9] tracking-tight text-white text-appear text-appear-delay-4">
-              REFORM
+              NABSHY
             </h2>
           </div>
 
-          <div className="flex justify-between items-center text-[13px] md:text-[14px] font-extralight text-white/70">
-            <div>
-              &copy;Nabshy Studio 2025
+          <div className="flex flex-col xs:flex-row justify-between items-center gap-3 xs:gap-4 text-center xs:text-left">
+            <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-white/70">
+              ©Nabshy Studio 2025
             </div>
-            <div>
-              Made by Alireza Saeedi
+            <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-white/70">
+              
             </div>
           </div>
         </div>

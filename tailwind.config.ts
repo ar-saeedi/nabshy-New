@@ -18,7 +18,7 @@ const config: Config = {
     },
     extend: {
       colors: {
-        'reform-red': '#CC2929',
+'reform-red': '#FF0000',
         'reform-black': '#000000',
       },
       fontFamily: {

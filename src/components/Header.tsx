@@ -7,7 +7,7 @@ export default function Header() {
     <div className="w-full max-w-[1860px] flex justify-between items-start gap-4 px-4 md:px-8 py-6 md:py-8">
       <div className="flex-1 max-w-[700px]">
         <h1 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] font-extralight leading-[1.25] text-reform-black">
-          Reform is a branding studio that<br />
+          NABSHY is a branding studio that<br />
           specializes in elevating brands<br />
           through the power of storytelling.
         </h1>

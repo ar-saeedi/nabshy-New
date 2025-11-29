@@ -106,26 +106,27 @@ export default function Projects() {
     <div className="min-h-screen bg-reform-red px-4 sm:px-6 md:px-8 py-6 md:py-8">
       <header className="w-full max-w-[1860px] mx-auto flex justify-between items-start gap-4 mb-10 md:mb-16 animate-slide-up">
         <Link href="/" className="text-[20px] xs:text-[22px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold text-reform-black leading-none text-appear">
-          REFORM
+          NABSHY
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex flex-row gap-8 lg:gap-12 xl:gap-16">
+        <nav className="hidden lg:flex flex-row gap-8 lg:gap-12 xl:gap-16">
           <Link href="/projects" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-1">
             PROJECTS
           </Link>
-          <Link href="/studio" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-2">
+          <Link href="/database" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-2">
+            DATABASE
+          </Link>
+          <Link href="/studio" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-3">
             STUDIO
           </Link>
-          <Link href="/contact" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-3">
+          <Link href="/contact" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-4">
             CONTACT
           </Link>
         </nav>
 
-        {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2 z-50"
+          className="lg:hidden flex flex-col gap-1.5 p-2 z-50"
           aria-label="Toggle menu"
         >
           <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
@@ -133,20 +134,24 @@ export default function Projects() {
           <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
         </button>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 bg-reform-red z-40 flex items-center justify-center">
-            <nav className="flex flex-col gap-8 items-center">
-              <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
-                PROJECTS
-              </Link>
-              <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
-                STUDIO
-              </Link>
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
-                CONTACT
-              </Link>
-            </nav>
+          <div className="lg:hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
+            <div className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-reform-red shadow-2xl" onClick={(e) => e.stopPropagation()}>
+              <nav className="flex flex-col gap-8 items-start p-8 mt-20">
+                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  PROJECTS
+                </Link>
+                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  DATABASE
+                </Link>
+                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  STUDIO
+                </Link>
+                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  CONTACT
+                </Link>
+              </nav>
+            </div>
           </div>
         )}
       </header>
@@ -240,7 +245,7 @@ export default function Projects() {
       <section className="sticky top-0 h-screen bg-reform-red flex items-start justify-center px-8 py-24 z-10">
         <div className="w-full max-w-[1860px]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <h2 className="text-[36px] sm:text-[44px] md:text-[53.8px] lg:text-[64px] font-bold leading-[1.2] uppercase text-reform-black">
+            <h2 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-bold leading-[1.2] uppercase text-reform-black">
               Ready to transform<br />
               your vision?<br />
               We're here to help.
@@ -271,65 +276,65 @@ export default function Projects() {
             <div className="w-full max-w-[1860px] mx-auto h-full flex flex-col justify-between">
 
               <div
-                className="flex justify-between items-start transition-opacity duration-500"
+                className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-12 transition-opacity duration-500"
                 style={{
                   opacity: footerProgress > 0.3 ? 1 : 0,
                 }}
               >
-                <div className="flex gap-16">
-                <div className="flex flex-col gap-6">
-                  <h3 className="text-[14px] font-extralight uppercase text-reform-red tracking-wider">
-                    NAVIGATE
-                  </h3>
-                  <nav className="flex flex-col gap-3">
-                  <Link href="/" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    Home
-                  </Link>
-                  <Link href="/studio" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    Studio
-                  </Link>
-                  <Link href="/projects" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    Projects
-                  </Link>
-                  <Link href="/contact" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    Contact
-                  </Link>
-                  </nav>
-                </div>
+                <div className="flex flex-col xs:flex-row gap-8 xs:gap-12 md:gap-16">
+                  <div className="flex flex-col gap-4 md:gap-6">
+                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase text-reform-red tracking-wider">
+                      NAVIGATE
+                    </h3>
+                    <nav className="flex flex-col gap-2 md:gap-3">
+                      <Link href="/" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        Home
+                      </Link>
+                      <Link href="/studio" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        Studio
+                      </Link>
+                      <Link href="/projects" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        Projects
+                      </Link>
+                      <Link href="/contact" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        Contact
+                      </Link>
+                    </nav>
+                  </div>
 
-                <div className="flex flex-col gap-6">
-                  <h3 className="text-[14px] font-extralight uppercase text-reform-red tracking-wider">
-                    SOCIAL
-                  </h3>
-                  <nav className="flex flex-col gap-3">
-                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    Instagram
-                  </a>
-                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    X
-                  </a>
-                  <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    Behance
-                  </a>
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                    LinkedIn
-                  </a>
-                  </nav>
-                </div>
+                  <div className="flex flex-col gap-4 md:gap-6">
+                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase text-reform-red tracking-wider">
+                      SOCIAL
+                    </h3>
+                    <nav className="flex flex-col gap-2 md:gap-3">
+                      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        Instagram
+                      </a>
+                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        X
+                      </a>
+                      <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        Behance
+                      </a>
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                        LinkedIn
+                      </a>
+                    </nav>
+                  </div>
                 </div>
 
                 <div
-                  className="flex flex-col items-end gap-8 transition-opacity duration-500"
+                  className="flex flex-col items-start md:items-end gap-4 md:gap-8 transition-opacity duration-500 w-full md:w-auto"
                   style={{
                     opacity: footerProgress > 0.5 ? 1 : 0,
                   }}
                 >
-                  <h3 className="text-[20px] md:text-[24px] font-medium text-reform-red text-right leading-tight">
+                  <h3 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-medium text-reform-red text-left md:text-right leading-tight">
                     WE WOULD LOVE TO<br />
                     HEAR MORE FROM YOU!
                   </h3>
                   <Link href="/contact" className="group relative flex items-center pb-1.5">
-                    <span className="text-[18px] md:text-[20px] font-semibold leading-[22px] text-reform-red tracking-wide">
+                    <span className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-red tracking-wide">
                       GET IN TOUCH
                     </span>
                     <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-red"></div>
@@ -344,21 +349,21 @@ export default function Projects() {
                 }}
               >
                 <h2 className="text-[clamp(80px,15vw,320px)] font-bold leading-[0.9] text-reform-red select-none tracking-tight">
-                  REFORM
+                  NABSHY
                 </h2>
               </div>
 
               <div
-                className="flex justify-between items-center transition-opacity duration-500"
+                className="flex flex-col xs:flex-row justify-between items-center gap-3 xs:gap-4 transition-opacity duration-500 text-center xs:text-left"
                 style={{
                   opacity: footerProgress > 0.6 ? 1 : 0,
                 }}
               >
-                <div className="text-[14px] md:text-[16px] font-extralight text-reform-red/70">
-                  &copy;NABSHY AGENCY Studio 2025
+                <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-reform-red/70">
+                  ©NABSHY AGENCY Studio 2025
                 </div>
-                <div className="text-[14px] md:text-[16px] font-extralight text-reform-red/70">
-                  Made by Alireza Saeedi
+                <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-reform-red/70">
+                  
                 </div>
               </div>
 

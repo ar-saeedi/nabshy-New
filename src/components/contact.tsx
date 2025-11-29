@@ -38,15 +38,6 @@ const offices: Record<
   },
 }
 
-const socialItems = [
-  { id: 'whatsapp', name: 'WhatsApp', iconSrc: '/icons/social-whatsapp.svg' },
-  { id: 'telegram', name: 'Telegram', iconSrc: '/icons/social-telegram.svg' },
-  { id: 'instagram', name: 'Instagram', iconSrc: '/icons/social-instagram.svg' },
-  { id: 'facebook', name: 'Facebook', iconSrc: '/icons/social-facebook.svg' },
-  { id: 'linkedin', name: 'LinkedIn', iconSrc: '/icons/social-linkedin.svg' },
-  { id: 'youtube', name: 'YouTube', iconSrc: '/icons/social-youtube.svg' },
-  { id: 'tiktok', name: 'TikTok', iconSrc: '/icons/social-tiktok.svg' },
-] as const
 
 export default function Contact() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -62,11 +53,10 @@ export default function Contact() {
     <div className="min-h-screen w-full bg-reform-red px-4 sm:px-6 md:px-8 py-6 md:py-8">
       <header className="w-full max-w-[1860px] mx-auto flex justify-between items-start gap-4 mb-8 md:mb-12 animate-slide-up">
         <Link href="/" className="text-[20px] xs:text-[22px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold text-reform-black leading-none text-appear">
-          REFORM
+          NABSHY
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex flex-row gap-8 lg:gap-12 xl:gap-16">
+        <nav className="hidden lg:flex flex-row gap-8 lg:gap-12 xl:gap-16">
           <Link
             href="/projects"
             className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-1"
@@ -74,23 +64,28 @@ export default function Contact() {
             PROJECTS
           </Link>
           <Link
-            href="/studio"
+            href="/database"
             className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-2"
+          >
+            DATABASE
+          </Link>
+          <Link
+            href="/studio"
+            className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-3"
           >
             STUDIO
           </Link>
           <Link
             href="/contact"
-            className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-3"
+            className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1 text-appear text-appear-delay-4"
           >
             CONTACT
           </Link>
         </nav>
 
-        {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2 z-50"
+          className="lg:hidden flex flex-col gap-1.5 p-2 z-50"
           aria-label="Toggle menu"
         >
           <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
@@ -98,20 +93,24 @@ export default function Contact() {
           <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
         </button>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 bg-reform-red z-40 flex items-center justify-center">
-            <nav className="flex flex-col gap-8 items-center">
-              <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
-                PROJECTS
-              </Link>
-              <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
-                STUDIO
-              </Link>
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[24px] font-bold text-reform-black">
-                CONTACT
-              </Link>
-            </nav>
+          <div className="lg:hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
+            <div className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-reform-red shadow-2xl" onClick={(e) => e.stopPropagation()}>
+              <nav className="flex flex-col gap-8 items-start p-8 mt-20">
+                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  PROJECTS
+                </Link>
+                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  DATABASE
+                </Link>
+                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  STUDIO
+                </Link>
+                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                  CONTACT
+                </Link>
+              </nav>
+            </div>
           </div>
         )}
       </header>
@@ -120,25 +119,6 @@ export default function Contact() {
           <h1 className="text-[24px] xs:text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-bold text-reform-black leading-tight">
             Offices
           </h1>
-
-          <div className="flex flex-wrap gap-2 xs:gap-2.5 sm:gap-3 md:gap-4">
-            {socialItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                aria-label={item.name}
-                className="w-9 h-9 xs:w-10 xs:h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-13 lg:h-13 rounded-full border border-reform-black flex items-center justify-center bg-transparent hover:bg-reform-black/10 transition-colors transition-transform duration-200 ease-out hover:scale-110"
-              >
-                <Image
-                  src={item.iconSrc}
-                  alt={item.name}
-                  width={32}
-                  height={32}
-                  className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 object-contain"
-                />
-              </button>
-            ))}
-          </div>
         </div>
 
         <div className="flex flex-col gap-2">
