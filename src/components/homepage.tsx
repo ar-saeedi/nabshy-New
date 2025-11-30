@@ -217,7 +217,7 @@ export default function Homepage() {
       <header className="sticky top-0 flex flex-col items-center justify-between px-4 sm:px-6 md:px-8 py-6 md:py-8 bg-reform-red min-h-screen z-0">
         <div className="w-full max-w-[1860px] flex justify-between items-start gap-4">
           <div className="flex-1 max-w-[700px]">
-            <h1 className="text-[16px] xs:text-[18px] sm:text-[22px] md:text-[32px] lg:text-[36px] font-bold leading-[1.2] text-reform-black">
+            <h1 className="text-[16px] xs:text-[18px] sm:text-[22px] md:text-[32px] lg:text-[36px] font-medium leading-[1.2] text-reform-black">
               NABSHY is a branding studio that<br />
               specializes in elevating brands<br />
               through the power of storytelling.
@@ -229,7 +229,7 @@ export default function Homepage() {
               href="/projects"
               className="group relative flex items-center pb-1.5 transition-all"
             >
-              <span className="text-[18px] lg:text-[20px] font-bold leading-[22px] text-reform-black whitespace-nowrap">
+              <span className="text-[18px] lg:text-[20px] font-medium leading-[22px] text-reform-black whitespace-nowrap">
                 PROJECTS
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
@@ -239,7 +239,7 @@ export default function Homepage() {
               href="/database"
               className="group relative flex items-center pb-1.5 transition-all"
             >
-              <span className="text-[18px] lg:text-[20px] font-bold leading-[22px] text-reform-black whitespace-nowrap">
+              <span className="text-[18px] lg:text-[20px] font-medium leading-[22px] text-reform-black whitespace-nowrap">
                 DATABASE
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
@@ -249,7 +249,7 @@ export default function Homepage() {
               href="/studio"
               className="group relative flex items-center pb-1.5 transition-all"
             >
-              <span className="text-[18px] lg:text-[20px] font-bold leading-[22px] text-reform-black whitespace-nowrap">
+              <span className="text-[18px] lg:text-[20px] font-medium leading-[22px] text-reform-black whitespace-nowrap">
                 STUDIO
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
@@ -259,7 +259,7 @@ export default function Homepage() {
               href="/contact"
               className="group relative flex items-center pb-1.5 transition-all"
             >
-              <span className="text-[18px] lg:text-[20px] font-bold leading-[22px] text-reform-black whitespace-nowrap">
+              <span className="text-[18px] lg:text-[20px] font-medium leading-[22px] text-reform-black whitespace-nowrap">
                 CONTACT
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
@@ -290,28 +290,28 @@ export default function Homepage() {
                 <Link
                   href="/projects"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity"
+                  className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity"
                 >
                   PROJECTS
                 </Link>
                 <Link
                   href="/database"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity"
+                  className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity"
                 >
                   DATABASE
                 </Link>
                 <Link
                   href="/studio"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity"
+                  className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity"
                 >
                   STUDIO
                 </Link>
                 <Link
                   href="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity"
+                  className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity"
                 >
                   CONTACT
                 </Link>
@@ -414,7 +414,7 @@ export default function Homepage() {
         <div className="w-full max-w-[1860px] mx-auto flex flex-col">
 
           <div className="w-full text-center px-4 pt-12 md:pt-16 mb-24 md:mb-32 pb-12 md:pb-16">
-            <h2 className="leading-tight flex flex-col gap-8 md:gap-12 items-center">
+            <h2 className="leading-tight flex flex-col gap-4 md:gap-6 items-center">
               <div
                 ref={(el) => { if (el) lineRefs.current[0] = el }}
                 className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[0] ? 'font-bold' : 'font-extralight'} text-reform-black uppercase`}
@@ -453,7 +453,7 @@ export default function Homepage() {
               {cards.map((card, index) => (
                 <div
                   key={index}
-                  className="relative bg-reform-red border-2 border-reform-black rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col aspect-square transition-all duration-300 cursor-pointer group"
+                  className="relative bg-reform-red border-2 border-reform-black rounded-xl p-6 md:p-8 lg:p-10 flex flex-col aspect-square transition-all duration-300 cursor-pointer group"
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
@@ -519,7 +519,7 @@ export default function Homepage() {
 
             <div className="w-full px-4 md:px-0 mt-48 md:mt-64 xl:mt-72">
               <div className="flex items-center justify-between mb-8 md:mb-12">
-                <h3 className="text-[24px] sm:text-[28px] md:text-[36px] font-bold uppercase text-reform-black">
+                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold uppercase text-reform-black">
                   LATEST PROJECTS
                 </h3>
                 <Link href="/projects" className="group relative pb-1.5">
@@ -533,7 +533,7 @@ export default function Homepage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                 {projects.map((p, idx) => (
                   <div key={idx} className="flex flex-col">
-                    <Link href={p.href} className="group rounded-3xl overflow-hidden">
+                    <Link href={p.href} className="group rounded-xl overflow-hidden">
                       <div className="relative w-full h-[240px] sm:h-[300px] md:h-[360px] xl:h-[420px]">
                         <Image
                           src={p.image}
@@ -547,8 +547,7 @@ export default function Homepage() {
                     <div className="flex flex-wrap gap-3 mt-5">
                       {p.features.map((f, i) => (
                         <div key={i} className="inline-flex items-center gap-2 px-4 py-1 border border-reform-black rounded-full text-reform-black">
-                          <span className="inline-block w-1.5 h-1.5 bg-reform-black rounded-full"></span>
-                          <span className="text-[14px] sm:text-[15px] md:text-[16px]">{f}</span>
+                          <span className="text-[12px] sm:text-[13px] md:text-[14px]">{f}</span>
                         </div>
                       ))}
                     </div>
@@ -623,17 +622,17 @@ export default function Homepage() {
                   return (
                     <div
                       key={i}
-                      className="bg-black rounded-3xl p-4 xs:p-5 sm:p-6 md:p-7 lg:p-8"
+                      className="bg-black rounded-xl p-4 xs:p-5 sm:p-6 md:p-7 lg:p-8"
                       style={{
                         opacity,
                         transform: `translateY(${translateY + stairOffset}px) scale(${scale})`,
                         transition: 'transform 400ms ease-out, opacity 400ms ease-out'
                       }}
                     >
-                      <div className="text-reform-red text-[18px] xs:text-[20px] sm:text-[22px] md:text-[26px] lg:text-[28px] xl:text-[32px] font-bold uppercase mb-3 md:mb-4">
+                      <div className="text-reform-red text-[28px] xs:text-[32px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] font-extrabold uppercase mb-3 md:mb-4 tracking-wide">
                         {c.title}
                       </div>
-                      <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[300px] overflow-hidden rounded-2xl mb-3 md:mb-4">
+                      <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[300px] overflow-hidden rounded-lg mb-3 md:mb-4">
                         <Image
                           src={c.image}
                           alt={c.title}

@@ -20,7 +20,7 @@ const projectsDatabase: { [key: string]: ProjectData } = {
       {
         type: 'PDF',
         title: 'Welcome to V1',
-        subtitle: 'We are proud of having you in V1',
+        subtitle: 'nabshy project',
         date: '7/22/2025',
         downloadUrl: '#'
       }
@@ -122,16 +122,16 @@ export default function Database() {
           <div className="lg:hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
             <div className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-reform-red shadow-2xl" onClick={(e) => e.stopPropagation()}>
               <nav className="flex flex-col gap-8 items-start p-8 mt-20">
-                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   PROJECTS
                 </Link>
-                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   DATABASE
                 </Link>
-                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   STUDIO
                 </Link>
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   CONTACT
                 </Link>
               </nav>
@@ -146,7 +146,7 @@ export default function Database() {
             DATABASE.
           </h1>
           <p className="text-[14px] md:text-[16px] text-reform-black/80">
-            Only accessible by NABSHY residents. Enter the given code to access information.
+            Only accessible by Nabshy customers, Enter the given code to access files.
           </p>
         </div>
       </main>
@@ -178,8 +178,8 @@ export default function Database() {
       {searchPerformed && (
         <main className="w-full max-w-[1860px] mx-auto px-4 sm:px-6 md:px-8 pb-24">
           {showResults && projectData ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 animate-slide-up">
-              <div className="bg-reform-black/10 border border-reform-black/20 rounded-3xl p-6 md:p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-8 md:gap-12 animate-slide-up">
+              <div className="bg-reform-black/10 border border-reform-black/20 rounded-xl p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-reform-black">
                     <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
@@ -188,7 +188,7 @@ export default function Database() {
                   <h2 className="text-[20px] md:text-[24px] font-bold text-reform-black uppercase">Project Info</h2>
                 </div>
 
-                <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden rounded-2xl bg-black">
+                <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden rounded-lg bg-black">
                   <Image
                     src={projectData.image}
                     alt={projectData.title}
@@ -238,7 +238,7 @@ export default function Database() {
                 </div>
               </div>
 
-              <div className="bg-reform-black/10 border border-reform-black/20 rounded-3xl p-6 md:p-8">
+              <div className="bg-reform-black/10 border border-reform-black/20 rounded-xl p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-reform-black">
                     <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
@@ -249,21 +249,19 @@ export default function Database() {
 
                 <div className="space-y-4">
                   {projectData.files.map((file, index) => (
-                    <div key={index} className="bg-reform-black border border-reform-black/20 rounded-2xl p-4 md:p-6 flex flex-col items-start gap-4">
-                      <div className="flex items-start gap-3 sm:gap-4 flex-1 w-full">
-                        <div className="bg-reform-red text-white text-[11px] sm:text-[12px] font-bold px-2 sm:px-3 py-1.5 sm:py-2 rounded uppercase shrink-0">
-                          {file.type}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-[15px] sm:text-[16px] md:text-[18px] font-bold text-reform-red mb-1">{file.title}</h3>
-                          <p className="text-[13px] sm:text-[14px] text-reform-red/80 mb-1.5 sm:mb-2">{file.subtitle}</p>
-                          <p className="text-[11px] sm:text-[12px] text-reform-red/60">{file.date}</p>
-                        </div>
+                    <div key={index} className="bg-reform-black border border-reform-black/20 rounded-xl p-4 md:p-6 flex items-center gap-4 sm:gap-5 md:gap-6">
+                      <div className="bg-[#1a1a1a] text-white text-[14px] sm:text-[16px] md:text-[18px] font-bold px-3 sm:px-4 md:px-5 py-6 sm:py-7 md:py-8 rounded-lg uppercase shrink-0 flex items-center justify-center min-w-[60px] sm:min-w-[70px] md:min-w-[80px]">
+                        {file.type}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-[16px] sm:text-[18px] md:text-[20px] font-bold text-white mb-1">{file.title}</h3>
+                        <p className="text-[14px] sm:text-[15px] md:text-[16px] text-white/70 mb-1">{file.subtitle}</p>
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] text-white/50">{file.date}</p>
                       </div>
                       <a
                         href={file.downloadUrl}
                         download
-                        className="flex items-center gap-2 text-[13px] sm:text-[14px] md:text-[16px] font-semibold text-reform-red hover:text-white transition-colors border-b border-reform-red hover:border-white pb-1 self-start"
+                        className="flex items-center gap-2 text-[13px] sm:text-[14px] md:text-[16px] font-semibold text-reform-red hover:text-white transition-colors border-b border-reform-red hover:border-white pb-1 shrink-0"
                       >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0">
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />

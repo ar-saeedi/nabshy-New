@@ -138,16 +138,16 @@ export default function Projects() {
           <div className="lg:hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
             <div className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-reform-red shadow-2xl" onClick={(e) => e.stopPropagation()}>
               <nav className="flex flex-col gap-8 items-start p-8 mt-20">
-                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   PROJECTS
                 </Link>
-                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   DATABASE
                 </Link>
-                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   STUDIO
                 </Link>
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-bold text-reform-black hover:opacity-70 transition-opacity">
+                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">
                   CONTACT
                 </Link>
               </nav>
@@ -207,7 +207,7 @@ export default function Projects() {
               key={project.title}
               className="group flex flex-col gap-4"
             >
-              <div className="w-full aspect-[16/9] rounded-3xl overflow-hidden bg-black">
+              <div className="w-full aspect-[16/9] rounded-xl overflow-hidden bg-black">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -217,10 +217,10 @@ export default function Projects() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-[20px] sm:text-[22px] md:text-[24px] font-bold text-reform-black">
+                <h2 className="text-[22px] sm:text-[26px] md:text-[32px] font-bold uppercase text-reform-black">
                   {project.title}
                 </h2>
-                <p className="text-[14px] sm:text-[15px] md:text-[16px] text-reform-black">
+                <p className="text-[16px] sm:text-[18px] md:text-[20px] font-extralight text-reform-black">
                   {project.subtitle}
                 </p>
               </div>
