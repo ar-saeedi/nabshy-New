@@ -192,7 +192,6 @@ export default function Studio() {
                 className="w-full flex flex-col items-center bg-reform-red relative"
                 style={{ zIndex: 10 - index }}
               >
-                {/* Video Section - starts small, grows with scroll */}
                 <div
                   className="flex items-center justify-center transition-all duration-300 ease-out overflow-hidden"
                   style={{
@@ -213,7 +212,6 @@ export default function Studio() {
                   </video>
                 </div>
                 
-                {/* Founder Info - Scales with video */}
                 <div 
                   className={`flex justify-center transition-all duration-300 ease-out overflow-hidden ${index % 2 === 0 ? 'bg-black text-white' : 'bg-reform-red text-reform-black'}`}
                   style={{
@@ -274,8 +272,8 @@ export default function Studio() {
           className="fixed bottom-0 left-0 w-full bg-black transition-all duration-300 ease-out z-30"
           style={{
             height: `${footerProgress * 100}vh`,
-            borderTopLeftRadius: footerProgress > 0 ? '40px' : '0px',
-            borderTopRightRadius: footerProgress > 0 ? '40px' : '0px',
+            borderTopLeftRadius: '0px',
+            borderTopRightRadius: '0px',
           }}
         >
           <div className="relative w-full h-full px-8 py-16">

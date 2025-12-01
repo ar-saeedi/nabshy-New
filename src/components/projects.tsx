@@ -268,8 +268,8 @@ export default function Projects() {
           className="fixed bottom-0 left-0 w-full bg-black transition-all duration-300 ease-out z-30"
           style={{
             height: `${footerProgress * 100}vh`,
-            borderTopLeftRadius: footerProgress > 0 ? '40px' : '0px',
-            borderTopRightRadius: footerProgress > 0 ? '40px' : '0px',
+            borderTopLeftRadius: '0px',
+            borderTopRightRadius: '0px',
           }}
         >
           <div className="relative w-full h-full px-8 py-16">
