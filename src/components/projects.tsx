@@ -207,7 +207,7 @@ export default function Projects() {
               key={project.title}
               className="group flex flex-col gap-4"
             >
-              <div className="w-full aspect-[16/9] rounded-xl overflow-hidden bg-black">
+              <div className="w-full aspect-[16/9] rounded-none overflow-hidden bg-black">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -228,7 +228,7 @@ export default function Projects() {
                 {project.features.map((feature) => (
                   <span
                     key={feature}
-                    className="px-4 py-1 border border-reform-black rounded-full text-[12px] sm:text-[13px] md:text-[14px] text-reform-black"
+                    className="px-4 py-1 border border-reform-black rounded-none text-[12px] sm:text-[13px] md:text-[14px] text-reform-black"
                   >
                     {feature}
                   </span>

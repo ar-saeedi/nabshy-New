@@ -5,11 +5,30 @@ import Link from 'next/link'
 
 export default function Studio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const teamVideos = ['/team1.mp4', '/team2.mp4', '/team3.mp4']
+  const founders = [
+    {
+      video: '/team1.mp4',
+      name: 'FOUNDER NAME',
+      role: 'CEO & Creative Director',
+      description: 'Visionary leader with over 10 years of experience in brand strategy and creative direction. Passionate about transforming ideas into powerful brand stories.'
+    },
+    {
+      video: '/team2.mp4',
+      name: 'FOUNDER NAME',
+      role: 'Co-Founder & Art Director',
+      description: 'Award-winning designer specializing in visual identity and brand systems. Brings artistic excellence to every project.'
+    },
+    {
+      video: '/team3.mp4',
+      name: 'FOUNDER NAME',
+      role: 'Co-Founder & Strategy Lead',
+      description: 'Strategic thinker with expertise in market positioning and brand development. Drives innovation and growth.'
+    }
+  ]
 
   const videoSectionRefs = useRef<(HTMLDivElement | null)[]>([])
   const [videoScales, setVideoScales] = useState<number[]>(() =>
-    teamVideos.map(() => 0.4),
+    founders.map(() => 0.4),
   )
   const footerRef = useRef<HTMLDivElement | null>(null)
   const [footerProgress, setFooterProgress] = useState(0)
@@ -22,7 +41,7 @@ export default function Studio() {
     const handleScroll = () => {
       const windowHeight = window.innerHeight
 
-      const newScales = teamVideos.map((_, index) => {
+      const newScales = founders.map((_, index) => {
         const section = videoSectionRefs.current[index]
         if (!section) return 0.4
 
@@ -156,39 +175,76 @@ export default function Studio() {
         </div>
       </section>
 
-      <section className="w-full py-0">
-        <div className="w-full max-w-[1860px] mx-auto flex flex-col gap-2">
-          {teamVideos.map((src, index) => (
-            <div
-              key={src}
-              ref={(el) => {
-                videoSectionRefs.current[index] = el
-              }}
-              className="w-full flex justify-center"
-            >
-              <div
-                className="flex items-center justify-center transition-all duration-300 ease-out"
-                style={{
-                  width: `${videoScales[index] * 100}vw`,
-                  height: `${videoScales[index] * 100}vh`,
+      <section className="w-full">
+        <div className="w-full flex flex-col">
+          {founders.map((founder, index) => {
+            const scale = videoScales[index]
+            const infoOpacity = Math.max(0, (scale - 0.7) / 0.3)
+            const infoTranslateY = (1 - infoOpacity) * 30
+            const isFullScale = scale >= 0.95
+            
+            return (
+              <div 
+                key={founder.video}
+                ref={(el) => {
+                  videoSectionRefs.current[index] = el
                 }}
+                className="w-full flex flex-col items-center bg-reform-red relative"
+                style={{ zIndex: 10 - index }}
               >
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover"
+                {/* Video Section - starts small, grows with scroll */}
+                <div
+                  className="flex items-center justify-center transition-all duration-300 ease-out overflow-hidden"
                   style={{
-                    borderRadius: videoScales[index] >= 0.98 ? '0px' : '12px',
+                    width: `${scale * 100}vw`,
+                    height: `${scale * 55}vh`,
+                    marginTop: index > 0 ? '4px' : '0px',
                   }}
                 >
-                  <source src={src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                  >
+                    <source src={founder.video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                
+                {/* Founder Info - Scales with video */}
+                <div 
+                  className={`flex justify-center transition-all duration-300 ease-out overflow-hidden ${index % 2 === 0 ? 'bg-black text-white' : 'bg-reform-red text-reform-black'}`}
+                  style={{
+                    width: `${scale * 100}vw`,
+                    paddingTop: `${scale * 48}px`,
+                    paddingBottom: `${scale * 48}px`,
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                  }}
+                >
+                  <div 
+                    className="w-full max-w-[1860px] mx-auto transition-all duration-300 ease-out"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-12">
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[52px] font-bold uppercase">
+                          {founder.name}
+                        </h3>
+                        <p className={`text-[14px] sm:text-[16px] md:text-[18px] font-medium uppercase tracking-wider ${index % 2 === 0 ? 'text-reform-red' : 'text-reform-black/70'}`}>
+                          {founder.role}
+                        </p>
+                      </div>
+                      <p className={`text-[14px] sm:text-[16px] md:text-[18px] font-light leading-relaxed max-w-[600px] ${index % 2 === 0 ? 'text-white/80' : 'text-reform-black/80'}`}>
+                        {founder.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 

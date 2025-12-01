@@ -263,7 +263,7 @@ export default function DarkoPage() {
               type="button"
               onClick={handlePrev}
               aria-label="Previous images"
-              className="absolute left-2 sm:left-0 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors"
+              className="absolute left-2 sm:left-0 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-none border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors"
             >
               <span className="text-[18px] md:text-[20px]">&#8592;</span>
             </button>
@@ -295,7 +295,7 @@ export default function DarkoPage() {
               type="button"
               onClick={handleNext}
               aria-label="Next images"
-              className="absolute right-2 sm:right-0 sm:translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors"
+              className="absolute right-2 sm:right-0 sm:translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-none border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors"
             >
               <span className="text-[18px] md:text-[20px]">&#8594;</span>
             </button>
@@ -323,7 +323,7 @@ export default function DarkoPage() {
               href="/projects/elemento"
               className="group flex flex-col gap-4"
             >
-              <div className="w-full aspect-[16/9] rounded-3xl overflow-hidden bg-white/5">
+              <div className="w-full aspect-[16/9] rounded-none overflow-hidden bg-white/5">
                 <Image
                   src="/elemento.avif"
                   alt="ELEMENTO"
@@ -333,10 +333,10 @@ export default function DarkoPage() {
                 />
               </div>
               <div className="flex flex-wrap gap-3 mt-3">
-                <span className="px-4 py-1 border border-white rounded-full text-[12px] sm:text-[13px] md:text-[14px]">
+                <span className="px-4 py-1 border border-white rounded-none text-[12px] sm:text-[13px] md:text-[14px]">
                   Brand Strategy
                 </span>
-                <span className="px-4 py-1 border border-white rounded-full text-[12px] sm:text-[13px] md:text-[14px]">
+                <span className="px-4 py-1 border border-white rounded-none text-[12px] sm:text-[13px] md:text-[14px]">
                   Visual Identity
                 </span>
               </div>
@@ -354,7 +354,7 @@ export default function DarkoPage() {
               href="/projects/energio"
               className="group flex flex-col gap-4"
             >
-              <div className="w-full aspect-[16/9] rounded-3xl overflow-hidden bg-white/5">
+              <div className="w-full aspect-[16/9] rounded-none overflow-hidden bg-white/5">
                 <Image
                   src="/energio.avif"
                   alt="ENERGIO"
@@ -364,10 +364,10 @@ export default function DarkoPage() {
                 />
               </div>
               <div className="flex flex-wrap gap-3 mt-3">
-                <span className="px-4 py-1 border border-white rounded-full text-[12px] sm:text-[13px] md:text-[14px]">
+                <span className="px-4 py-1 border border-white rounded-none text-[12px] sm:text-[13px] md:text-[14px]">
                   Brand Strategy
                 </span>
-                <span className="px-4 py-1 border border-white rounded-full text-[12px] sm:text-[13px] md:text-[14px]">
+                <span className="px-4 py-1 border border-white rounded-none text-[12px] sm:text-[13px] md:text-[14px]">
                   Visual Identity
                 </span>
               </div>

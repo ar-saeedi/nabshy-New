@@ -160,7 +160,7 @@ export default function Contact() {
           className="flex flex-col lg:flex-row gap-6 sm:gap-8 md:gap-10 lg:gap-16 xl:gap-20 pt-4 animate-slide-up"
         >
           <div className="w-full lg:w-1/2">
-            <div className="relative overflow-hidden rounded-xl bg-white">
+            <div className="relative overflow-hidden rounded-none bg-white">
               <Image
                 src={office.imageSrc}
                 alt={office.label}

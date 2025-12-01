@@ -395,7 +395,7 @@ export default function Homepage() {
                 className={`h-auto object-cover leading-none ${
                   slowedProgress >= 0.9
                     ? 'rounded-none'
-                    : 'rounded-lg'
+                    : 'rounded-none'
                 }`}
                 style={videoStyle}
                 onLoadedMetadata={(e) => {
@@ -414,7 +414,7 @@ export default function Homepage() {
         <div className="w-full max-w-[1860px] mx-auto flex flex-col">
 
           <div className="w-full text-center px-4 pt-12 md:pt-16 mb-24 md:mb-32 pb-12 md:pb-16">
-            <h2 className="leading-tight flex flex-col gap-4 md:gap-6 items-center">
+            <h2 className="leading-tight flex flex-col gap-2 md:gap-3 items-center">
               <div
                 ref={(el) => { if (el) lineRefs.current[0] = el }}
                 className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[0] ? 'font-bold' : 'font-extralight'} text-reform-black uppercase`}
@@ -453,7 +453,7 @@ export default function Homepage() {
               {cards.map((card, index) => (
                 <div
                   key={index}
-                  className="relative bg-reform-red border-2 border-reform-black rounded-xl p-6 md:p-8 lg:p-10 flex flex-col aspect-square transition-all duration-300 cursor-pointer group"
+                  className="relative bg-reform-red border-2 border-reform-black rounded-none p-6 md:p-8 lg:p-10 flex flex-col aspect-square transition-all duration-300 cursor-pointer group"
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
@@ -533,7 +533,7 @@ export default function Homepage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                 {projects.map((p, idx) => (
                   <div key={idx} className="flex flex-col">
-                    <Link href={p.href} className="group rounded-xl overflow-hidden">
+                    <Link href={p.href} className="group rounded-none overflow-hidden">
                       <div className="relative w-full h-[240px] sm:h-[300px] md:h-[360px] xl:h-[420px]">
                         <Image
                           src={p.image}
@@ -546,7 +546,7 @@ export default function Homepage() {
                     </Link>
                     <div className="flex flex-wrap gap-3 mt-5">
                       {p.features.map((f, i) => (
-                        <div key={i} className="inline-flex items-center gap-2 px-4 py-1 border border-reform-black rounded-full text-reform-black">
+                        <div key={i} className="inline-flex items-center gap-2 px-4 py-1 border border-reform-black rounded-none text-reform-black">
                           <span className="text-[12px] sm:text-[13px] md:text-[14px]">{f}</span>
                         </div>
                       ))}
@@ -622,7 +622,7 @@ export default function Homepage() {
                   return (
                     <div
                       key={i}
-                      className="bg-black rounded-xl p-4 xs:p-5 sm:p-6 md:p-7 lg:p-8"
+                      className="bg-black rounded-none p-4 xs:p-5 sm:p-6 md:p-7 lg:p-8"
                       style={{
                         opacity,
                         transform: `translateY(${translateY + stairOffset}px) scale(${scale})`,
@@ -632,7 +632,7 @@ export default function Homepage() {
                       <div className="text-reform-red text-[28px] xs:text-[32px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] font-extrabold uppercase mb-3 md:mb-4 tracking-wide">
                         {c.title}
                       </div>
-                      <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[300px] overflow-hidden rounded-lg mb-3 md:mb-4">
+                      <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[300px] overflow-hidden rounded-none mb-3 md:mb-4">
                         <Image
                           src={c.image}
                           alt={c.title}
@@ -674,7 +674,7 @@ export default function Homepage() {
               <button
                 onClick={prevTestimonial}
                 disabled={isFirstTestimonial}
-                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-reform-black rounded-lg flex items-center justify-center transition-colors ${isFirstTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-reform-black hover:text-reform-red'}`}
+                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-reform-black rounded-none flex items-center justify-center transition-colors ${isFirstTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-reform-black hover:text-reform-red'}`}
                 aria-label="Previous testimonial"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -684,7 +684,7 @@ export default function Homepage() {
               <button
                 onClick={nextTestimonial}
                 disabled={isLastTestimonial}
-                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-reform-black rounded-lg flex items-center justify-center transition-colors ${isLastTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-reform-black hover:text-reform-red'}`}
+                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-reform-black rounded-none flex items-center justify-center transition-colors ${isLastTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-reform-black hover:text-reform-red'}`}
                 aria-label="Next testimonial"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

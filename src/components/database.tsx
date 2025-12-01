@@ -179,7 +179,7 @@ export default function Database() {
         <main className="w-full max-w-[1860px] mx-auto px-4 sm:px-6 md:px-8 pb-24">
           {showResults && projectData ? (
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-8 md:gap-12 animate-slide-up">
-              <div className="bg-reform-black/10 border border-reform-black/20 rounded-xl p-6 md:p-8">
+              <div className="bg-reform-black/10 border border-reform-black/20 rounded-none p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-reform-black">
                     <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
@@ -188,7 +188,7 @@ export default function Database() {
                   <h2 className="text-[20px] md:text-[24px] font-bold text-reform-black uppercase">Project Info</h2>
                 </div>
 
-                <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden rounded-lg bg-black">
+                <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden rounded-none bg-black">
                   <Image
                     src={projectData.image}
                     alt={projectData.title}
@@ -238,7 +238,7 @@ export default function Database() {
                 </div>
               </div>
 
-              <div className="bg-reform-black/10 border border-reform-black/20 rounded-xl p-6 md:p-8">
+              <div className="bg-reform-black/10 border border-reform-black/20 rounded-none p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-reform-black">
                     <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
@@ -249,8 +249,8 @@ export default function Database() {
 
                 <div className="space-y-4">
                   {projectData.files.map((file, index) => (
-                    <div key={index} className="bg-reform-black border border-reform-black/20 rounded-xl p-4 md:p-6 flex items-center gap-4 sm:gap-5 md:gap-6">
-                      <div className="bg-[#1a1a1a] text-white text-[14px] sm:text-[16px] md:text-[18px] font-bold px-3 sm:px-4 md:px-5 py-6 sm:py-7 md:py-8 rounded-lg uppercase shrink-0 flex items-center justify-center min-w-[60px] sm:min-w-[70px] md:min-w-[80px]">
+                    <div key={index} className="bg-reform-black border border-reform-black/20 rounded-none p-4 md:p-6 flex items-center gap-4 sm:gap-5 md:gap-6">
+                      <div className="bg-[#1a1a1a] text-white text-[14px] sm:text-[16px] md:text-[18px] font-bold px-3 sm:px-4 md:px-5 py-6 sm:py-7 md:py-8 rounded-none uppercase shrink-0 flex items-center justify-center min-w-[60px] sm:min-w-[70px] md:min-w-[80px]">
                         {file.type}
                       </div>
                       <div className="flex-1 min-w-0">
