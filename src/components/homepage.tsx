@@ -1,10 +1,32 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
+interface HomepageContent {
+  hero: { mainTitle: string; brandName: string; circaText: string; locationText: string }
+  videoSection: { heading: string[]; description: string; videoUrl: string }
+  beliefSection: { lines: string[] }
+  whatWeDo: { title: string; learnMoreText?: string; learnMoreLink?: string; cards: Array<{ title: string; description: string; linkText?: string; linkUrl?: string }> }
+  latestProjectsText: { sectionTitle?: string; viewAllText?: string; subtitle: string; lines: string[] }
+  processSection: { subtitle: string; lines: string[]; cards: Array<{ title: string; image: string; description: string }> }
+  testimonials: { title: string; items: Array<{ id: string; quote: string; name: string; position: string }> }
+  ctaSection: { heading: string[]; buttonText: string; buttonLink: string }
+  footer: { navigation: Array<{ label: string; href: string }>; social: Array<{ label: string; href: string }>; ctaTitle: string; ctaButtonText: string; ctaButtonLink: string; brandName: string; copyright: string }
+}
+
+interface ProjectData {
+  id: string; title: string; subtitle: string; image: string; href: string; features: string[]
+}
+
+interface ContentData {
+  homepage: HomepageContent
+  projects: ProjectData[]
+}
+
 export default function Homepage() {
+  const [content, setContent] = useState<ContentData | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -25,6 +47,24 @@ export default function Homepage() {
 
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerProgress, setFooterProgress] = useState(0)
+
+  // Fetch content from API
+  const fetchContent = useCallback(async () => {
+    try {
+      const res = await fetch('/api/content', { cache: 'no-store' })
+      const data = await res.json()
+      setContent(data)
+    } catch (error) {
+      console.error('Error fetching content:', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchContent()
+    // Refetch every 2 seconds for real-time updates
+    const interval = setInterval(fetchContent, 2000)
+    return () => clearInterval(interval)
+  }, [fetchContent])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +104,6 @@ export default function Homepage() {
       if (footerRef.current) {
         const rect = footerRef.current.getBoundingClientRect()
         const windowHeight = window.innerHeight
-        const sectionHeight = footerRef.current.offsetHeight
         const scrolledIntoFooter = Math.max(0, windowHeight - rect.top)
         const progress = Math.max(0, Math.min(1, scrolledIntoFooter / windowHeight))
         setFooterProgress(progress)
@@ -101,96 +140,9 @@ export default function Homepage() {
     display: 'block',
   }
 
-  const cards = [
-    {
-      title: 'STRATEGY',
-      description: 'Our extensive range of digital services is designed to satisfy changing needs of our customers.'
-    },
-    {
-      title: 'VISUAL IDENTITY',
-      description: 'Distinct visual language that evokes strong feelings and memorable impressions in your target audience.'
-    },
-    {
-      title: 'WEB DEVELOPMENT',
-      description: 'In order to provide user-centric solutions that enhance your brand and captivate your audience, our website design services combine creativity and innovation.'
-    },
-  ]
-
-  const projects = [
-    {
-      title: 'ACTIVO',
-      subtitle: 'Redefining the Active Lifestyle.',
-      image: '/activo.avif',
-      href: '/projects/activo',
-      features: ['Brand Strategy', 'Visual Identity']
-    },
-    {
-      title: 'DARKO',
-      subtitle: 'Reveal the Darkness Within.',
-      image: '/darko.avif',
-      href: '/projects/darko',
-      features: ['Visual Identity', 'Web Development']
-    },
-    {
-      title: 'ELEMENTO',
-      subtitle: 'Feel the Element.',
-      image: '/elemento.avif',
-      href: '/projects/elemento',
-      features: ['Brand Strategy', 'Visual Identity']
-    },
-    {
-      title: 'ENERGIO',
-      subtitle: 'Energy to Break the Limit.',
-      image: '/energio.avif',
-      href: '/projects/energio',
-      features: ['Brand Strategy', 'Visual Identity']
-    },
-  ]
-
-  const processCards = [
-    {
-      title: 'ANALYZE',
-      image: '/Analyze.avif',
-      desc: 'Collecting data through research, audits, and interviews is the initial stage in establishing project objectives.',
-      offset: 0,
-      baseMargin: 48
-    },
-    {
-      title: 'OBSERVE',
-      image: '/Observe.avif',
-      desc: 'In this stage, we will specify how you want your company to be seen by customers and how it differs from the other.',
-      offset: 0.15,
-      baseMargin: 96
-    },
-    {
-      title: 'EXECUTE',
-      image: '/Execute.avif',
-      desc: "After everything is ready, it's time to execute what we've learned before. We'll start transforming your ideas into reality.",
-      offset: 0.3,
-      baseMargin: 144
-    },
-  ]
-
-  const testimonials = [
-    {
-      quote: "Partnering with NABSHY was a game-changer. Their creativity and dedication exceeded our expectations.",
-      name: "Thomas Shelby",
-      position: "Manchester Energy / Founder"
-    },
-    {
-      quote: "NABSHY helps us with amazing ideas, and also provides excellent execution during our partnerships.",
-      name: "Michael De Santa",
-      position: "LifeInvader / CEO"
-    },
-    {
-      quote: "NABSHY exceeded our expectations. Their ability to combine functionality with aesthetics is truly exceptional.",
-      name: "Carl Johnson",
-      position: "GroveTech / COO"
-    }
-  ]
-
   const nextTestimonial = () => {
-    if (currentTestimonial < testimonials.length - 1) {
+    if (!content) return
+    if (currentTestimonial < hp.testimonials.items.length - 1) {
       setSlideDirection('right')
       setTimeout(() => {
         setCurrentTestimonial((prev) => prev + 1)
@@ -209,8 +161,28 @@ export default function Homepage() {
     }
   }
 
-  const isLastTestimonial = currentTestimonial === testimonials.length - 1
+  // Loading state
+  if (!content) {
+    return (
+      <div className="min-h-screen bg-reform-red flex items-center justify-center">
+        <div className="text-reform-black text-2xl font-bold animate-pulse">Loading...</div>
+      </div>
+    )
+  }
+
+  // Extract homepage content for easier access
+  const hp = content.homepage
+  const projectsList = content.projects
+
+  const isLastTestimonial = currentTestimonial === hp.testimonials.items.length - 1
   const isFirstTestimonial = currentTestimonial === 0
+
+  // Process cards with animation offsets
+  const processCards = hp.processSection.cards.map((card: { title: string; image: string; description: string }, i: number) => ({
+    ...card,
+    offset: i * 0.15,
+    baseMargin: (i + 1) * 48
+  }))
 
   return (
     <div className="relative">
@@ -218,9 +190,13 @@ export default function Homepage() {
         <div className="w-full max-w-[1860px] flex justify-between items-start gap-4">
           <div className="flex-1 max-w-[700px]">
             <h1 className="text-[16px] xs:text-[18px] sm:text-[22px] md:text-[32px] lg:text-[36px] font-medium leading-[1.2] text-reform-black">
-              NABSHY is a branding studio that<br />
-              specializes in elevating brands<br />
-              through the power of storytelling.
+              {hp.hero.mainTitle.split(' ').reduce((acc: React.ReactNode[], word, i, arr) => {
+                if (i > 0 && i % 5 === 0) {
+                  acc.push(<br key={`br-${i}`} />)
+                }
+                acc.push(i > 0 ? ' ' + word : word)
+                return acc
+              }, [])}
             </h1>
           </div>
 
@@ -323,20 +299,20 @@ export default function Homepage() {
         <div className="w-full max-w-[1860px] flex flex-col items-center justify-end gap-5 flex-1">
           <div className="relative w-full flex items-center justify-center my-auto px-2">
             <h2 className="text-[clamp(60px,20vw,400px)] font-bold leading-[1.2] text-reform-black select-none tracking-normal text-center max-w-[1372px]">
-              NABSHY
+              {hp.hero.brandName}
             </h2>
           </div>
 
           <div className="w-full flex flex-col xs:flex-row justify-between items-center xs:items-end gap-3 xs:gap-2 px-0 py-1 text-center xs:text-left">
             <div className="flex flex-col">
               <span className="inline-block text-[18px] xs:text-[20px] sm:text-[22px] md:text-[24px] lg:text-[26px] xl:text-[28px] font-normal leading-[1.2] text-reform-black tracking-normal">
-                CIRCA 2021
+                {hp.hero.circaText}
               </span>
             </div>
 
             <div className="flex flex-col">
               <span className="block text-[18px] xs:text-[20px] sm:text-[22px] md:text-[24px] lg:text-[26px] xl:text-[28px] font-normal leading-[1.2] text-reform-black tracking-normal">
-                BASED IN BRUSSELS
+                {hp.hero.locationText}
               </span>
             </div>
           </div>
@@ -350,17 +326,20 @@ export default function Homepage() {
         <div className="flex flex-col px-4 sm:px-6 md:px-8 pt-12 md:pt-16 pb-0">
           <div className="w-full max-w-[1860px] mx-auto flex flex-col lg:flex-row justify-between items-start gap-6 md:gap-8 mb-12 md:mb-16 lg:mb-20">
             <div className="flex flex-col w-full lg:w-[562px] lg:pr-8 xl:pr-12">
-              <h2 className="text-[24px] xs:text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[53.8px] font-bold leading-[1.2] uppercase text-reform-red">
-                {"REDEFINING\u00a0THE"}<br />
-                {"STANDARDS\u00a0OF"}<br />
-                CREATIVITY.
+              <h2 className="text-[24px] xs:text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[53.8px] font-bold leading-[1.2] text-reform-red">
+                {hp.videoSection.heading.map((line, i) => (
+                  <span key={i}>
+                    {line.replace(/ /g, '\u00a0')}
+                    {i < hp.videoSection.heading.length - 1 && <br />}
+                  </span>
+                ))}
               </h2>
             </div>
 
             <div className="flex flex-col w-full lg:w-[638px] gap-4 lg:gap-6 lg:pl-16 xl:pl-32 lg:ml-8 xl:ml-16">
               <div>
                 <p className="text-[18px] font-normal leading-[21.6px] text-reform-red">
-                  At NABSHY, we believe in reshaping perspectives. Our team combines expertise in strategy, design, and technology to deliver transformative experiences that challenge the ordinary.
+                  {hp.videoSection.description}
                 </p>
               </div>
 
@@ -402,7 +381,7 @@ export default function Homepage() {
                   e.currentTarget.play().catch(err => console.log('Video play error:', err))
                 }}
               >
-                <source src="/Venice_5.mp4" type="video/mp4" />
+                <source src={hp.videoSection.videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -415,49 +394,40 @@ export default function Homepage() {
 
           <div className="w-full text-center px-4 pt-12 md:pt-16 mb-24 md:mb-32 pb-12 md:pb-16">
             <h2 className="leading-tight flex flex-col gap-2 md:gap-3 items-center">
-              <div
-                ref={(el) => { if (el) lineRefs.current[0] = el }}
-                className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[0] ? 'font-bold' : 'font-extralight'} text-reform-black uppercase`}
-              >
-                WE BELIEVE THAT EVERY
-              </div>
-              <div
-                ref={(el) => { if (el) lineRefs.current[1] = el }}
-                className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[1] ? 'font-bold' : 'font-extralight'} text-reform-black uppercase`}
-              >
-                BRAND HAS A STORY THAT
-              </div>
-              <div
-                ref={(el) => { if (el) lineRefs.current[2] = el }}
-                className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[2] ? 'font-bold' : 'font-extralight'} text-reform-black uppercase`}
-              >
-                NEED TO BE TOLD
-              </div>
+              {hp.beliefSection.lines.map((line, i) => (
+                <div
+                  key={i}
+                  ref={(el) => { if (el) lineRefs.current[i] = el }}
+                  className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[i] ? 'font-bold' : 'font-extralight'} text-reform-black`}
+                >
+                  {line}
+                </div>
+              ))}
             </h2>
           </div>
 
           <div className="flex flex-col pt-16">
             <div className="flex justify-between items-start mb-10 md:mb-16">
-              <h2 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold leading-[1.2] uppercase text-reform-black">
-                WHAT WE DO.
+              <h2 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold leading-[1.2] text-reform-black">
+                {hp.whatWeDo.title}
               </h2>
-              <Link href="/studio" className="group relative flex items-center pb-1.5">
+              <Link href={hp.whatWeDo.learnMoreLink || "/studio"} className="group relative flex items-center pb-1.5">
                 <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-black tracking-wide">
-                  LEARN MORE
+                  {hp.whatWeDo.learnMoreText || "LEARN MORE"}
                 </span>
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
               </Link>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
-              {cards.map((card, index) => (
+              {hp.whatWeDo.cards.map((card, index) => (
                 <div
                   key={index}
                   className="relative bg-reform-red border-2 border-reform-black rounded-none p-6 md:p-8 lg:p-10 flex flex-col aspect-square transition-all duration-300 cursor-pointer group"
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <h3 className="text-[16px] xs:text-[17px] sm:text-[18px] md:text-[22px] lg:text-[26px] xl:text-[32px] font-bold leading-[1.1] uppercase text-reform-black break-words">
+                  <h3 className="text-[16px] xs:text-[17px] sm:text-[18px] md:text-[22px] lg:text-[26px] xl:text-[32px] font-bold leading-[1.1] text-reform-black break-words">
                     {card.title}
                   </h3>
                   <div className="flex-1" />
@@ -466,19 +436,11 @@ export default function Homepage() {
                       {card.description}
                     </p>
                     <Link
-                      href={
-                        index === 0
-                          ? '/projects?category=brand-strategy'
-                          : index === 1
-                          ? '/projects?category=visual-identity'
-                          : index === 2
-                          ? '/projects?category=website'
-                          : '/projects'
-                      }
+                      href={card.linkUrl || '/projects'}
                       className={`transition-all duration-300 ${hoveredCard === index ? 'opacity-100 h-auto' : 'opacity-0 h-0 pointer-events-none'}`}
                     >
                       <span className="text-[16px] md:text-[18px] font-semibold leading-[22px] text-reform-black underline">
-                        VIEW PROJECTS
+                        {card.linkText || 'VIEW PROJECTS'}
                       </span>
                     </Link>
                   </div>
@@ -492,47 +454,38 @@ export default function Homepage() {
               <div className="flex flex-col gap-8 md:gap-12">
                 <div
                   ref={(el) => { if (el) lineRefs.current[3] = el }}
-                  className={`text-[clamp(18px,2.2vw,40px)] transition-all duration-500 uppercase ${boldLines[3] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                  className={`text-[clamp(18px,2.2vw,40px)] transition-all duration-500 ${boldLines[3] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
                 >
-                  LATEST PROJECTS
+                  {hp.latestProjectsText.subtitle}
                 </div>
-                <div
-                  ref={(el) => { if (el) lineRefs.current[4] = el }}
-                  className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 uppercase ${boldLines[4] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
-                >
-                  WE PUSH LIMITS TO
-                </div>
-                <div
-                  ref={(el) => { if (el) lineRefs.current[5] = el }}
-                  className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 uppercase ${boldLines[5] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
-                >
-                  DELIVER TRANSFORMATIVE
-                </div>
-                <div
-                  ref={(el) => { if (el) lineRefs.current[6] = el }}
-                  className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 uppercase ${boldLines[6] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
-                >
-                  EXPERIENCE
-                </div>
+                {hp.latestProjectsText.lines.map((line, i) => (
+                  <div
+                    key={i}
+                    ref={(el) => { if (el) lineRefs.current[4 + i] = el }}
+                    className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 ${boldLines[4 + i] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                  >
+                    {line}
+                  </div>
+                ))}
               </div>
             </div>
 
             <div className="w-full px-4 md:px-0 mt-48 md:mt-64 xl:mt-72">
               <div className="flex items-center justify-between mb-8 md:mb-12">
-                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold uppercase text-reform-black">
-                  LATEST PROJECTS
+                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold text-reform-black">
+                  {hp.latestProjectsText.sectionTitle || 'LATEST PROJECTS'}
                 </h3>
                 <Link href="/projects" className="group relative pb-1.5">
                   <span className="text-[16px] md:text-[18px] font-semibold text-reform-black">
-                    VIEW ALL PROJECTS
+                    {hp.latestProjectsText.viewAllText || 'VIEW ALL PROJECTS'}
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
                 </Link>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                {projects.map((p, idx) => (
-                  <div key={idx} className="flex flex-col">
+                {projectsList.map((p: ProjectData, idx: number) => (
+                  <div key={p.id} className="flex flex-col">
                     <Link href={p.href} className="group rounded-none overflow-hidden">
                       <div className="relative w-full h-[240px] sm:h-[300px] md:h-[360px] xl:h-[420px]">
                         <Image
@@ -552,7 +505,7 @@ export default function Homepage() {
                       ))}
                     </div>
                     <div className="mt-5">
-                      <h4 className="text-[22px] sm:text-[26px] md:text-[32px] font-bold uppercase text-reform-black">
+                      <h4 className="text-[22px] sm:text-[26px] md:text-[32px] font-bold text-reform-black">
                         {p.title}
                       </h4>
                       <p className="text-[16px] sm:text-[18px] md:text-[20px] font-extralight text-reform-black">
@@ -570,28 +523,19 @@ export default function Homepage() {
               <div className="flex flex-col gap-8 md:gap-12 items-center">
                 <div
                   ref={(el) => { if (el) lineRefs.current[7] = el }}
-                  className={`text-[clamp(14px,2vw,20px)] transition-all duration-500 uppercase ${boldLines[7] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                  className={`text-[clamp(14px,2vw,20px)] transition-all duration-500 ${boldLines[7] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
                 >
-                  OUR PROCESS
+                  {hp.processSection.subtitle}
                 </div>
-                <div
-                  ref={(el) => { if (el) lineRefs.current[8] = el }}
-                  className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 uppercase ${boldLines[8] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
-                >
-                  RESHAPING PERSPECTIVE
-                </div>
-                <div
-                  ref={(el) => { if (el) lineRefs.current[9] = el }}
-                  className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 uppercase ${boldLines[9] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
-                >
-                  THAT CHALLENGE
-                </div>
-                <div
-                  ref={(el) => { if (el) lineRefs.current[10] = el }}
-                  className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 uppercase ${boldLines[10] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
-                >
-                  THE ORDINARY
-                </div>
+                {hp.processSection.lines.map((line, i) => (
+                  <div
+                    key={i}
+                    ref={(el) => { if (el) lineRefs.current[8 + i] = el }}
+                    className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 ${boldLines[8 + i] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                  >
+                    {line}
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -611,7 +555,6 @@ export default function Homepage() {
                   const initialScale = 0.94 + eased * 0.06
                   const finalOpacity = 1.0
                   const finalTranslateY = 0
-                  const finalStairOffset = 0
                   const finalScale = 1.0
                   const opacity = initialOpacity + (finalOpacity - initialOpacity) * finalEased
                   const translateY = initialTranslateY + (finalTranslateY - initialTranslateY) * finalEased
@@ -629,7 +572,7 @@ export default function Homepage() {
                         transition: 'transform 400ms ease-out, opacity 400ms ease-out'
                       }}
                     >
-                      <div className="text-reform-red text-[28px] xs:text-[32px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] font-extrabold uppercase mb-3 md:mb-4 tracking-wide">
+                      <div className="text-reform-red text-[28px] xs:text-[32px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] font-extrabold mb-3 md:mb-4 tracking-wide">
                         {c.title}
                       </div>
                       <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[300px] overflow-hidden rounded-none mb-3 md:mb-4">
@@ -646,7 +589,7 @@ export default function Homepage() {
                         />
                       </div>
                       <p className="text-reform-red text-[13px] xs:text-[14px] sm:text-[14px] md:text-[15px] lg:text-[16px] font-extralight leading-[1.6]">
-                        {c.desc}
+                        {c.description}
                       </p>
                     </div>
                   )
@@ -659,8 +602,8 @@ export default function Homepage() {
 
           <div className="w-full px-4 md:px-0 mt-24 md:mt-32">
             <div className="flex justify-between items-start mb-16 md:mb-24">
-              <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-bold leading-[1.2] uppercase text-reform-black">
-                WHAT THEY SAID.
+              <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-bold leading-[1.2] text-reform-black">
+                {hp.testimonials.title}
               </h2>
               <Link href="/studio" className="group relative flex items-center pb-1.5">
                 <span className="text-[14px] md:text-[16px] lg:text-[18px] font-semibold leading-[22px] text-reform-black tracking-wide">
@@ -692,7 +635,7 @@ export default function Homepage() {
                 </svg>
               </button>
               <div className="text-[16px] md:text-[18px] font-medium text-reform-black ml-8 md:ml-12">
-                {currentTestimonial + 1} / {testimonials.length}
+                {currentTestimonial + 1} / {hp.testimonials.items.length}
               </div>
             </div>
 
@@ -710,11 +653,11 @@ export default function Homepage() {
                   }}
                 >
                   <blockquote className="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] font-medium leading-[1.3] text-reform-black mb-8 md:mb-12 text-left">
-                    &ldquo;{testimonials[currentTestimonial].quote}&rdquo;
+                    &ldquo;{hp.testimonials.items[currentTestimonial]?.quote}&rdquo;
                   </blockquote>
                   <div className="text-[16px] sm:text-[18px] md:text-[20px] text-reform-black text-left">
-                    <div className="font-bold mb-1">{testimonials[currentTestimonial].name}</div>
-                    <div className="font-light">{testimonials[currentTestimonial].position}</div>
+                    <div className="font-bold mb-1">{hp.testimonials.items[currentTestimonial]?.name}</div>
+                    <div className="font-light">{hp.testimonials.items[currentTestimonial]?.position}</div>
                   </div>
                 </div>
               </div>
@@ -729,14 +672,17 @@ export default function Homepage() {
       <section className="sticky top-0 h-screen bg-reform-red flex items-start justify-center px-8 py-24 z-10">
         <div className="w-full max-w-[1860px]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <h2 className="text-[36px] sm:text-[44px] md:text-[53.8px] lg:text-[64px] font-bold leading-[1.2] uppercase text-reform-black">
-              Ready to transform<br />
-              your vision?<br />
-              We&apos;re here to help.
+            <h2 className="text-[36px] sm:text-[44px] md:text-[53.8px] lg:text-[64px] font-bold leading-[1.2] text-reform-black">
+              {hp.ctaSection.heading.map((line, i) => (
+                <span key={i}>
+                  {line}
+                  {i < hp.ctaSection.heading.length - 1 && <br />}
+                </span>
+              ))}
             </h2>
-            <Link href="/contact" className="group relative flex items-center pb-1.5 shrink-0">
+            <Link href={hp.ctaSection.buttonLink || '/contact'} className="group relative flex items-center pb-1.5 shrink-0">
               <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-black tracking-wide">
-                GET IN TOUCH
+                {hp.ctaSection.buttonText}
               </span>
               <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
             </Link>
@@ -767,42 +713,28 @@ export default function Homepage() {
               >
                 <div className="flex flex-col xs:flex-row gap-8 xs:gap-12 md:gap-16">
                   <div className="flex flex-col gap-4 md:gap-6">
-                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase text-reform-red tracking-wider">
+                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight text-reform-red tracking-wider">
                       NAVIGATE
                     </h3>
                     <nav className="flex flex-col gap-2 md:gap-3">
-                      <Link href="/" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        Home
-                      </Link>
-                      <Link href="/studio" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        Studio
-                      </Link>
-                      <Link href="/projects" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        Projects
-                      </Link>
-                      <Link href="/contact" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        Contact
-                      </Link>
+                      {hp.footer.navigation.map((link, i) => (
+                        <Link key={i} href={link.href} className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                          {link.label}
+                        </Link>
+                      ))}
                     </nav>
                   </div>
 
                   <div className="flex flex-col gap-4 md:gap-6">
-                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight uppercase text-reform-red tracking-wider">
+                    <h3 className="text-[12px] sm:text-[13px] md:text-[14px] font-extralight text-reform-red tracking-wider">
                       SOCIAL
                     </h3>
                     <nav className="flex flex-col gap-2 md:gap-3">
-                      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        Instagram
-                      </a>
-                      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        X
-                      </a>
-                      <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        Behance
-                      </a>
-                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
-                        LinkedIn
-                      </a>
+                      {hp.footer.social.map((link, i) => (
+                        <a key={i} href={link.href} target="_blank" rel="noopener noreferrer" className="text-[14px] sm:text-[16px] md:text-[18px] font-extralight text-reform-red hover:opacity-70 transition-opacity">
+                          {link.label}
+                        </a>
+                      ))}
                     </nav>
                   </div>
                 </div>
@@ -814,12 +746,15 @@ export default function Homepage() {
                   }}
                 >
                   <h3 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-medium text-reform-red text-left md:text-right leading-tight">
-                    WE WOULD LOVE TO<br />
-                    HEAR MORE FROM YOU!
+                    {hp.footer.ctaTitle.split(' ').reduce((acc: React.ReactNode[], word, i) => {
+                      if (i === 4) acc.push(<br key="br" />)
+                      acc.push(i > 0 ? ' ' + word : word)
+                      return acc
+                    }, [])}
                   </h3>
-                  <Link href="/contact" className="group relative flex items-center pb-1.5">
+                  <Link href={hp.footer.ctaButtonLink || '/contact'} className="group relative flex items-center pb-1.5">
                     <span className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-red tracking-wide">
-                      GET IN TOUCH
+                      {hp.footer.ctaButtonText || 'GET IN TOUCH'}
                     </span>
                     <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-red"></div>
                   </Link>
@@ -833,7 +768,7 @@ export default function Homepage() {
                 }}
               >
                 <h2 className="text-[clamp(80px,15vw,320px)] font-bold leading-[0.9] text-reform-red select-none tracking-tight">
-                  NABSHY
+                  {hp.footer.brandName}
                 </h2>
               </div>
 
@@ -844,7 +779,7 @@ export default function Homepage() {
                 }}
               >
                 <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-reform-red/70">
-                  ©NABSHY AGENCY Studio 2025
+                  {hp.footer.copyright}
                 </div>
                 <div className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] font-extralight text-reform-red/70">
                   

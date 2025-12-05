@@ -1,5 +1,5 @@
-import EnergioPage from '@/components/energio'
+import ProjectDetail from '@/components/project-detail'
 
 export default function EnergioRoutePage() {
-  return <EnergioPage />
+  return <ProjectDetail projectId="energio" />
 }

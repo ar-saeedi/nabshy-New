@@ -1,0 +1,480 @@
+{
+  "homepage": {
+    "hero": {
+      "mainTitle": "NABSHY is a branding studio that specializes in elevating brands through the power of storytelling.",
+      "brandName": "NABSHY",
+      "circaText": "CIRCA 2021",
+      "locationText": "BASED IN BRUSSELS"
+    },
+    "videoSection": {
+      "heading": [
+        "REDEFINING THE",
+        "STANDARDS OF",
+        "CREATIVITY."
+      ],
+      "description": "At NABSHY, we believe in reshaping perspectives. Our team combines expertise in strategy, design, and technology to deliver transformative experiences that challenge the ordinary.",
+      "videoUrl": "/Venice_5.mp4"
+    },
+    "beliefSection": {
+      "lines": [
+        "WE BELIEVE THAT EVERY",
+        "BRAND HAS A STORY THAT",
+        "NEED TO BE TOLD"
+      ]
+    },
+    "whatWeDo": {
+      "title": "WHAT WE DO.",
+      "learnMoreText": "LEARN MORE",
+      "learnMoreLink": "/studio",
+      "cards": [
+        {
+          "title": "STRATEGY",
+          "description": "Our extensive range of digital services is designed to satisfy changing needs of our customers.",
+          "linkText": "VIEW PROJECTS",
+          "linkUrl": "/projects?category=brand-strategy"
+        },
+        {
+          "title": "VISUAL IDENTITY",
+          "description": "Distinct visual language that evokes strong feelings and memorable impressions in your target audience.",
+          "linkText": "VIEW PROJECTS",
+          "linkUrl": "/projects?category=visual-identity"
+        },
+        {
+          "title": "WEB DEVELOPMENT",
+          "description": "In order to provide user-centric solutions that enhance your brand and captivate your audience, our website design services combine creativity and innovation.",
+          "linkText": "VIEW PROJECTS",
+          "linkUrl": "/projects?category=website"
+        }
+      ]
+    },
+    "latestProjectsText": {
+      "sectionTitle": "LATEST PROJECTS",
+      "viewAllText": "VIEW ALL PROJECTS",
+      "subtitle": "LATEST PROJECTS",
+      "lines": [
+        "WE PUSH LIMITS TO",
+        "DELIVER TRANSFORMATIVE",
+        "EXPERIENCE"
+      ]
+    },
+    "processSection": {
+      "subtitle": "OUR PROCESS",
+      "lines": [
+        "RESHAPING PERSPECTIVE",
+        "THAT CHALLENGE",
+        "THE ORDINARY"
+      ],
+      "cards": [
+        {
+          "title": "ANALYZE",
+          "image": "/Analyze.avif",
+          "description": "Collecting data through research, audits, and interviews is the initial stage in establishing project objectives."
+        },
+        {
+          "title": "OBSERVE",
+          "image": "/Observe.avif",
+          "description": "In this stage, we will specify how you want your company to be seen by customers and how it differs from the other."
+        },
+        {
+          "title": "EXECUTE",
+          "image": "/Execute.avif",
+          "description": "After everything is ready, it's time to execute what we've learned before. We'll start transforming your ideas into reality."
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "WHAT THEY SAID.",
+      "items": [
+        {
+          "id": "1",
+          "quote": "Partnering with NABSHY was a game-changer. Their creativity and dedication exceeded our expectations.",
+          "name": "Thomas Shelby",
+          "position": "Manchester Energy / Founder"
+        },
+        {
+          "id": "2",
+          "quote": "NABSHY helps us with amazing ideas, and also provides excellent execution during our partnerships.",
+          "name": "Michael De Santa",
+          "position": "LifeInvader / CEO"
+        },
+        {
+          "id": "3",
+          "quote": "NABSHY exceeded our expectations. Their ability to combine functionality with aesthetics is truly exceptional.",
+          "name": "Carl Johnson",
+          "position": "GroveTech / COO"
+        }
+      ]
+    },
+    "ctaSection": {
+      "heading": [
+        "Ready to transform",
+        "your vision?",
+        "We're here to help."
+      ],
+      "buttonText": "GET IN TOUCH",
+      "buttonLink": "/contact"
+    },
+    "footer": {
+      "navigation": [
+        {
+          "label": "Home",
+          "href": "/"
+        },
+        {
+          "label": "Studio",
+          "href": "/studio"
+        },
+        {
+          "label": "Projects",
+          "href": "/projects"
+        },
+        {
+          "label": "Contact",
+          "href": "/contact"
+        }
+      ],
+      "social": [
+        {
+          "label": "Instagram",
+          "href": "https://instagram.com"
+        },
+        {
+          "label": "X",
+          "href": "https://twitter.com"
+        },
+        {
+          "label": "Behance",
+          "href": "https://behance.net"
+        },
+        {
+          "label": "LinkedIn",
+          "href": "https://linkedin.com"
+        }
+      ],
+      "ctaTitle": "WE WOULD LOVE TO HEAR MORE FROM YOU!",
+      "ctaButtonText": "GET IN TOUCH",
+      "ctaButtonLink": "/contact",
+      "brandName": "NABSHY",
+      "copyright": "©NABSHY AGENCY Studio 2025"
+    }
+  },
+  "projectsPage": {
+    "title": "PROJECTS.",
+    "filters": [
+      "ALL",
+      "BRAND STRATEGY",
+      "VISUAL IDENTITY",
+      "WEBSITE"
+    ],
+    "ctaHeading": [
+      "Ready to transform",
+      "your vision?",
+      "We're here to help."
+    ],
+    "footer": {
+      "navigation": [
+        {
+          "label": "Home",
+          "href": "/"
+        },
+        {
+          "label": "Studio",
+          "href": "/studio"
+        },
+        {
+          "label": "Projects",
+          "href": "/projects"
+        },
+        {
+          "label": "Contact",
+          "href": "/contact"
+        }
+      ],
+      "social": [
+        {
+          "label": "Instagram",
+          "href": "https://instagram.com"
+        },
+        {
+          "label": "X",
+          "href": "https://x.com"
+        },
+        {
+          "label": "Behance",
+          "href": "https://behance.net"
+        },
+        {
+          "label": "LinkedIn",
+          "href": "https://linkedin.com"
+        }
+      ],
+      "ctaTitle": "WE WOULD LOVE TO HEAR MORE FROM YOU!",
+      "brandName": "NABSHY",
+      "copyright": "©NABSHY AGENCY Studio 2025"
+    }
+  },
+  "projects": [
+    {
+      "id": "activo",
+      "title": "ACTIVO",
+      "subtitle": "Redefining the Active Lifestyle.",
+      "image": "/activo.avif",
+      "heroImage": "/activoheroimage.avif",
+      "href": "/projects/activo",
+      "features": [
+        "Brand Strategy",
+        "Visual Identity"
+      ],
+      "year": "2024",
+      "client": "Activo",
+      "description": "A branding identity rooted in the unique story of the brand. Inspired by their values, the project aimed to translate their vision into a compelling visual narrative. Through meticulous design and strategy, we crafted a logo, typography, and color palette that reflect their essence and set the foundation for a cohesive and memorable brand presence.",
+      "heroTitle": [
+        "REDEFINING THE",
+        "ACTIVE",
+        "LIFESTYLE."
+      ],
+      "sectionTitle": "Translating vision into a compelling visual narrative",
+      "galleryImages": [
+        "/uploads/1764697713825_activoim2.avif",
+        "/activoim3.avif"
+      ],
+      "carouselSlides": [
+        [
+          "/activoim5.avif",
+          "/activoim4.avif"
+        ],
+        [
+          "/activoim2.avif",
+          "/activoim3.avif"
+        ]
+      ],
+      "nextProjects": [
+        "darko",
+        "elemento"
+      ]
+    },
+    {
+      "id": "darko",
+      "title": "DARKO",
+      "subtitle": "Reveal the Darkness Within.",
+      "image": "/darko.avif",
+      "heroImage": "/darkoheroimage.avif",
+      "href": "/projects/darko",
+      "features": [
+        "Visual Identity",
+        "Web Development"
+      ],
+      "year": "2024",
+      "client": "Darko",
+      "description": "A bold visual identity that embraces the mysterious and dark aesthetic. The project explores the depths of visual storytelling through dramatic imagery and refined typography.",
+      "heroTitle": [
+        "REVEAL THE",
+        "DARKNESS",
+        "WITHIN."
+      ],
+      "sectionTitle": "Embracing the mysterious aesthetic",
+      "galleryImages": [
+        "/darkoim2.avif",
+        "/darkoim3.avif"
+      ],
+      "carouselSlides": [
+        [
+          "/darkoim4.avif",
+          "/darkoim5.avif"
+        ],
+        [
+          "/darkoim2.avif",
+          "/darkoim3.avif"
+        ]
+      ],
+      "nextProjects": [
+        "elemento",
+        "energio"
+      ]
+    },
+    {
+      "id": "elemento",
+      "title": "ELEMENTO",
+      "subtitle": "Feel the Element.",
+      "image": "/elemento.avif",
+      "heroImage": "/elementoheroimage.avif",
+      "href": "/projects/elemento",
+      "features": [
+        "Brand Strategy",
+        "Visual Identity"
+      ],
+      "year": "2024",
+      "client": "Elemento",
+      "description": "A brand identity that captures the essence of natural elements. The design language draws inspiration from earth, water, fire, and air to create a harmonious visual system.",
+      "heroTitle": [
+        "FEEL THE",
+        "ELEMENT."
+      ],
+      "sectionTitle": "Capturing the essence of natural elements",
+      "galleryImages": [
+        "/elementoim2.avif",
+        "/elemntoim3.avif"
+      ],
+      "carouselSlides": [
+        [
+          "/elementoim4.avif",
+          "/elementoim5.avif"
+        ],
+        [
+          "/elementoim2.avif",
+          "/elemntoim3.avif"
+        ]
+      ],
+      "nextProjects": [
+        "energio",
+        "activo"
+      ]
+    },
+    {
+      "id": "energio",
+      "title": "ENERGIO",
+      "subtitle": "Energy to Break the Limit.",
+      "image": "/energio.avif",
+      "heroImage": "/energioheroimagee.avif",
+      "href": "/projects/energio",
+      "features": [
+        "Brand Strategy",
+        "Visual Identity"
+      ],
+      "year": "2024",
+      "client": "Energio",
+      "description": "A dynamic brand identity that embodies power and momentum. The visual system is built around bold typography and energetic color combinations.",
+      "heroTitle": [
+        "ENERGY TO",
+        "BREAK THE",
+        "LIMIT."
+      ],
+      "sectionTitle": "Embodying power and momentum",
+      "galleryImages": [
+        "/energioim2.avif",
+        "/energioim3.avif"
+      ],
+      "carouselSlides": [
+        [
+          "/energioim4.avif",
+          "/energioim5.avif"
+        ],
+        [
+          "/energioim2.avif",
+          "/energioim3.avif"
+        ]
+      ],
+      "nextProjects": [
+        "activo",
+        "darko"
+      ]
+    }
+  ],
+  "studioPage": {
+    "heading": [
+      "REDEFINING THE",
+      "STANDARDS OF",
+      "CREATIVITY."
+    ],
+    "overviewTitle": "OVERVIEW",
+    "overviewText1": "At NABSHY, we believe in reshaping perspectives. Our team combines expertise in strategy, design, and technology to deliver transformative experiences that challenge the ordinary.",
+    "overviewText2": "Its work involves communication systems and visual strategies, working across multiple disciplines like brand and visual identity, web design, graphics, event communication and digital contents.",
+    "founders": [
+      {
+        "video": "/team1.mp4",
+        "name": "FOUNDER NAME",
+        "role": "CEO & Creative Director",
+        "description": "Visionary leader with over 10 years of experience in brand strategy and creative direction. Passionate about transforming ideas into powerful brand stories."
+      },
+      {
+        "video": "/team2.mp4",
+        "name": "FOUNDER NAME",
+        "role": "Co-Founder & Art Director",
+        "description": "Award-winning designer specializing in visual identity and brand systems. Brings artistic excellence to every project."
+      },
+      {
+        "video": "/team3.mp4",
+        "name": "FOUNDER NAME",
+        "role": "Co-Founder & Strategy Lead",
+        "description": "Strategic thinker with expertise in market positioning and brand development. Drives innovation and growth."
+      }
+    ],
+    "ctaHeading": [
+      "Ready to transform",
+      "your vision?",
+      "We're here to help."
+    ]
+  },
+  "contactPage": {
+    "title": "Offices",
+    "offices": [
+      {
+        "id": "tehran",
+        "tabTitle": "Tehran, Iran",
+        "title": "Tehran, Iran",
+        "label": "Tehran Office",
+        "address": "Jordan st, Tehran",
+        "email": "info@nabshy.com",
+        "phoneDisplay": "+21-52938",
+        "phoneHref": "tel:+21-52938",
+        "imageSrc": "/dubaioffice.jpg"
+      },
+      {
+        "id": "mashhad",
+        "tabTitle": "Mashhad, Iran",
+        "title": "Mashhad, Iran",
+        "label": "Mashhad Office",
+        "address": "Sajjad Blv,Mashhad",
+        "email": "info@nabshy.com",
+        "phoneDisplay": "+51-31636",
+        "phoneHref": "tel:+51-31636",
+        "imageSrc": "/abudhabioffice.jpg"
+      }
+    ]
+  },
+  "databasePage": {
+    "title": "DATABASE.",
+    "subtitle": "Only accessible by Nabshy customers, Enter the given code to access files.",
+    "searchPlaceholder": "Enter the code ...",
+    "notFoundTitle": "No project found with code",
+    "notFoundSubtitle": "Please check the code and try again",
+    "projectInfoTitle": "Project Info",
+    "projectFilesTitle": "Project Files",
+    "projects": [
+      {
+        "code": "nabshy-15",
+        "title": "nabshy-15",
+        "status": "completed",
+        "image": "/activo.avif",
+        "description": "A revolutionary residential complex that redefines urban living through innovative architectural solutions. The project seamlessly blends functionality with aesthetic excellence, creating spaces that inspire and elevate daily life. Completed in 2023, this development stands as a testament to forward-thinking design and meticulous craftsmanship.",
+        "location": "Mashhad, Iran",
+        "type": "Residential",
+        "floors": 5,
+        "units": 5,
+        "areaPerUnit": 250,
+        "files": [
+          {
+            "type": "PDF",
+            "title": "Welcome to Nabshy",
+            "subtitle": "nabshy project",
+            "date": "7/22/2025",
+            "downloadUrl": "#"
+          }
+        ]
+      },
+      {
+        "code": "nabshy-4",
+        "title": "New Project",
+        "status": "completed",
+        "image": "/uploads/1764921915262_photo_2025-08-05_09-11-41.jpg",
+        "description": "Project description...gfbgfngfn",
+        "location": "Locationfdbg",
+        "type": "Typed",
+        "floors": 3,
+        "units": 4,
+        "areaPerUnit": 4,
+        "files": []
+      }
+    ]
+  }
+}

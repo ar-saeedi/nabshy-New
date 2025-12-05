@@ -1,5 +1,5 @@
-import ActivoPage from '@/components/activo'
+import ProjectDetail from '@/components/project-detail'
 
 export default function ActivoRoutePage() {
-  return <ActivoPage />
+  return <ProjectDetail projectId="activo" />
 }

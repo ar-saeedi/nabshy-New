@@ -1,5 +1,5 @@
-import ElementoPage from '@/components/elemento'
+import ProjectDetail from '@/components/project-detail'
 
 export default function ElementoRoutePage() {
-  return <ElementoPage />
+  return <ProjectDetail projectId="elemento" />
 }

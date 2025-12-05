@@ -1,5 +1,5 @@
-import DarkoPage from '@/components/darko'
+import ProjectDetail from '@/components/project-detail'
 
 export default function DarkoRoutePage() {
-  return <DarkoPage />
+  return <ProjectDetail projectId="darko" />
 }
