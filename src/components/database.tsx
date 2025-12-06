@@ -18,11 +18,9 @@ interface DatabaseProject {
   status: string
   image: string
   description: string
-  location: string
-  type: string
-  floors: number
-  units: number
-  areaPerUnit: number
+  scopeOfWork: string
+  client: string
+  year: string
   files: ProjectFile[]
 }
 
@@ -185,28 +183,16 @@ export default function Database() {
 
                   <div className="grid grid-cols-2 gap-4 pt-4">
                     <div>
-                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Location</p>
-                      <p className="text-[14px] md:text-[16px]">{projectData.location}</p>
+                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Scope of Work</p>
+                      <p className="text-[14px] md:text-[16px]">{projectData.scopeOfWork}</p>
                     </div>
                     <div>
-                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Status</p>
-                      <p className="text-[14px] md:text-[16px]">{projectData.status}</p>
+                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Client</p>
+                      <p className="text-[14px] md:text-[16px]">{projectData.client}</p>
                     </div>
                     <div>
-                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Type</p>
-                      <p className="text-[14px] md:text-[16px]">{projectData.type}</p>
-                    </div>
-                    <div>
-                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Floors</p>
-                      <p className="text-[14px] md:text-[16px]">{projectData.floors}</p>
-                    </div>
-                    <div>
-                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Units</p>
-                      <p className="text-[14px] md:text-[16px]">{projectData.units}</p>
-                    </div>
-                    <div>
-                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Area/Unit</p>
-                      <p className="text-[14px] md:text-[16px]">{projectData.areaPerUnit}</p>
+                      <p className="text-[12px] text-reform-black/60 tracking-wider mb-1 font-semibold">Year</p>
+                      <p className="text-[14px] md:text-[16px]">{projectData.year}</p>
                     </div>
                   </div>
                 </div>

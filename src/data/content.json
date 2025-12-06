@@ -222,7 +222,7 @@
       "heroImage": "/activoheroimage.avif",
       "href": "/projects/activo",
       "features": [
-        "Brand Strategy",
+        "Braand Strategy",
         "Visual Identity"
       ],
       "year": "2024",
@@ -460,7 +460,10 @@
             "date": "7/22/2025",
             "downloadUrl": "#"
           }
-        ]
+        ],
+        "scopeOfWork": "Brand Strategy",
+        "client": "Activo",
+        "year": "2024"
       },
       {
         "code": "nabshy-4",

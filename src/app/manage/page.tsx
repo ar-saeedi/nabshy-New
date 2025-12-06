@@ -1031,7 +1031,7 @@ export default function AdminPanel() {
 
                       {/* BLOCK 1: Hero Section */}
                       <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                        <h4 className="text-lg font-semibold text-blue-600 mb-3">📸 Block 1: Hero Section</h4>
+                        <h4 className="text-lg font-semibold text-blue-600 mb-3">Block 1: Hero Section</h4>
                         <p className="text-gray-500 text-xs mb-3">Full-width background image with title overlay</p>
                         <div className="mb-4">
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Hero Image</label>
@@ -1064,7 +1064,7 @@ export default function AdminPanel() {
 
                       {/* BLOCK 2: Gallery Images (with loading effects) */}
                       <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                        <h4 className="text-lg font-semibold text-green-600 mb-3">🖼️ Block 2: Gallery Images (Parallax Effect)</h4>
+                        <h4 className="text-lg font-semibold text-green-600 mb-3">Block 2: Gallery Images (Parallax Effect)</h4>
                         <p className="text-gray-500 text-xs mb-3">Two images with scroll-based parallax/loading animations</p>
                         <div className="grid grid-cols-2 gap-4">
                           {((project.galleryImages as string[]) || []).map((img: string, j: number) => (
@@ -1091,7 +1091,7 @@ export default function AdminPanel() {
 
                       {/* BLOCK 3: Carousel Section */}
                       <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                        <h4 className="text-lg font-semibold text-purple-600 mb-3">🎠 Block 3: Carousel Section</h4>
+                        <h4 className="text-lg font-semibold text-purple-600 mb-3">Block 3: Carousel Section</h4>
                         <p className="text-gray-500 text-xs mb-3">Section title + navigable image carousel</p>
                         <div className="mb-4">
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Section Title</label>
@@ -1148,24 +1148,14 @@ export default function AdminPanel() {
 
                       {/* BLOCK 4: Project Info */}
                       <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                        <h4 className="text-lg font-semibold text-yellow-600 mb-3">📋 Block 4: Project Info</h4>
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                          <div>
-                            <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Title</label>
-                            <input type="text" value={String(project.title || '')} onChange={(e) => {
-                              const newProjects = [...projects]
-                              newProjects[i] = { ...newProjects[i], title: e.target.value }
-                              updateNestedValue(['projects'], newProjects)
-                            }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" autoCapitalize="off" />
-                          </div>
-                          <div>
-                            <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Subtitle</label>
-                            <input type="text" value={String(project.subtitle || '')} onChange={(e) => {
-                              const newProjects = [...projects]
-                              newProjects[i] = { ...newProjects[i], subtitle: e.target.value }
-                              updateNestedValue(['projects'], newProjects)
-                            }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" autoCapitalize="off" />
-                          </div>
+                        <h4 className="text-lg font-semibold text-yellow-600 mb-3">Block 4: Project Info</h4>
+                        <div className="mb-4">
+                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Title</label>
+                          <input type="text" value={String(project.title || '')} onChange={(e) => {
+                            const newProjects = [...projects]
+                            newProjects[i] = { ...newProjects[i], title: e.target.value }
+                            updateNestedValue(['projects'], newProjects)
+                          }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" autoCapitalize="off" />
                         </div>
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
@@ -1209,7 +1199,7 @@ export default function AdminPanel() {
                           {project.image && <div className="mt-2 relative w-32 h-20"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div>}
                         </div>
                         <div>
-                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Features/Tags (comma separated)</label>
+                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Scope of Work</label>
                           <input type="text" value={(project.features as string[] || []).join(', ')} onChange={(e) => {
                             const newProjects = [...projects]
                             newProjects[i] = { ...newProjects[i], features: e.target.value.split(',').map(f => f.trim()) }
@@ -1382,11 +1372,9 @@ export default function AdminPanel() {
                       status: 'in-progress',
                       image: '/placeholder.avif',
                       description: 'Project description...',
-                      location: 'Location',
-                      type: 'Type',
-                      floors: 0,
-                      units: 0,
-                      areaPerUnit: 0,
+                      scopeOfWork: '',
+                      client: '',
+                      year: '',
                       files: []
                     })
                     updateNestedValue(['databasePage', 'projects'], newProjects)
@@ -1465,48 +1453,30 @@ export default function AdminPanel() {
                     {/* Project Details */}
                     <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
                       <h5 className="text-md font-semibold text-green-600 mb-3">📋 Project Details</h5>
-                      <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="grid grid-cols-3 gap-4">
                         <div>
-                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Location</label>
-                          <input type="text" value={String(project.location || '')} onChange={(e) => {
+                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Scope of Work</label>
+                          <input type="text" value={String(project.scopeOfWork || '')} onChange={(e) => {
                             const newProjects = [...((databasePage?.projects as Array<Record<string, unknown>>) || [])]
-                            newProjects[i] = { ...newProjects[i], location: e.target.value }
+                            newProjects[i] = { ...newProjects[i], scopeOfWork: e.target.value }
                             updateNestedValue(['databasePage', 'projects'], newProjects)
                           }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" autoCapitalize="off" />
                         </div>
                         <div>
-                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Type</label>
-                          <input type="text" value={String(project.type || '')} onChange={(e) => {
+                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Client</label>
+                          <input type="text" value={String(project.client || '')} onChange={(e) => {
                             const newProjects = [...((databasePage?.projects as Array<Record<string, unknown>>) || [])]
-                            newProjects[i] = { ...newProjects[i], type: e.target.value }
+                            newProjects[i] = { ...newProjects[i], client: e.target.value }
                             updateNestedValue(['databasePage', 'projects'], newProjects)
                           }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" autoCapitalize="off" />
                         </div>
                         <div>
-                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Floors</label>
-                          <input type="number" value={Number(project.floors || 0)} onChange={(e) => {
+                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Year</label>
+                          <input type="text" value={String(project.year || '')} onChange={(e) => {
                             const newProjects = [...((databasePage?.projects as Array<Record<string, unknown>>) || [])]
-                            newProjects[i] = { ...newProjects[i], floors: parseInt(e.target.value) || 0 }
+                            newProjects[i] = { ...newProjects[i], year: e.target.value }
                             updateNestedValue(['databasePage', 'projects'], newProjects)
-                          }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Units</label>
-                          <input type="number" value={Number(project.units || 0)} onChange={(e) => {
-                            const newProjects = [...((databasePage?.projects as Array<Record<string, unknown>>) || [])]
-                            newProjects[i] = { ...newProjects[i], units: parseInt(e.target.value) || 0 }
-                            updateNestedValue(['databasePage', 'projects'], newProjects)
-                          }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
-                        </div>
-                        <div>
-                          <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Area/Unit (sqm)</label>
-                          <input type="number" value={Number(project.areaPerUnit || 0)} onChange={(e) => {
-                            const newProjects = [...((databasePage?.projects as Array<Record<string, unknown>>) || [])]
-                            newProjects[i] = { ...newProjects[i], areaPerUnit: parseInt(e.target.value) || 0 }
-                            updateNestedValue(['databasePage', 'projects'], newProjects)
-                          }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
+                          }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" autoCapitalize="off" />
                         </div>
                       </div>
                     </div>
