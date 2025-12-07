@@ -968,7 +968,7 @@ export default function AdminPanel() {
                                 fileInputRef.current?.click()
                               }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                             </div>
-                            {project.image && <div className="mt-2 relative w-24 h-16"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div>}
+                            {project.image ? <div className="mt-2 relative w-24 h-16"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div> : null}
                           </div>
                           <div>
                             <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Title</label>
@@ -1046,7 +1046,7 @@ export default function AdminPanel() {
                               fileInputRef.current?.click()
                             }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                           </div>
-                          {project.heroImage && <div className="mt-2 relative w-48 h-28"><Image src={String(project.heroImage)} alt="" fill className="object-cover rounded" /></div>}
+                          {project.heroImage ? <div className="mt-2 relative w-48 h-28"><Image src={String(project.heroImage)} alt="" fill className="object-cover rounded" /></div> : null}
                         </div>
                         <div>
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Hero Title Lines</label>
@@ -1083,7 +1083,7 @@ export default function AdminPanel() {
                                   fileInputRef.current?.click()
                                 }} className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded-lg text-xs">Upload</button>
                               </div>
-                              {img && <div className="mt-2 relative w-24 h-16"><Image src={img} alt="" fill className="object-cover rounded" /></div>}
+                              {img ? <div className="mt-2 relative w-24 h-16"><Image src={img} alt="" fill className="object-cover rounded" /></div> : null}
                             </div>
                           ))}
                         </div>
@@ -1131,7 +1131,7 @@ export default function AdminPanel() {
                                         fileInputRef.current?.click()
                                       }} className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs">Upload</button>
                                     </div>
-                                    {imgUrl && <div className="mt-1 relative w-20 h-12"><Image src={imgUrl} alt="" fill className="object-cover rounded" /></div>}
+                                    {imgUrl ? <div className="mt-1 relative w-20 h-12"><Image src={imgUrl} alt="" fill className="object-cover rounded" /></div> : null}
                                   </div>
                                 ))}
                               </div>
@@ -1196,7 +1196,7 @@ export default function AdminPanel() {
                               fileInputRef.current?.click()
                             }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                           </div>
-                          {project.image && <div className="mt-2 relative w-32 h-20"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div>}
+                          {project.image ? <div className="mt-2 relative w-32 h-20"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div> : null}
                         </div>
                         <div>
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Scope of Work</label>
@@ -1438,7 +1438,7 @@ export default function AdminPanel() {
                             fileInputRef.current?.click()
                           }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                         </div>
-                        {project.image && <div className="mt-2 relative w-32 h-20"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div>}
+                        {project.image ? <div className="mt-2 relative w-32 h-20"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div> : null}
                       </div>
                       <div>
                         <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Description</label>
