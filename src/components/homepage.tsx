@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 
 interface HomepageContent {
   hero: { mainTitle: string; brandName: string; circaText: string; locationText: string }
@@ -17,7 +16,7 @@ interface HomepageContent {
 }
 
 interface ProjectData {
-  id: string; title: string; subtitle: string; image: string; href: string; features: string[]
+  id: string; title: string; subtitle: string; image: string; href: string; features: string[]; order?: number
 }
 
 interface ContentData {
@@ -48,7 +47,6 @@ export default function Homepage() {
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerProgress, setFooterProgress] = useState(0)
 
-  // Fetch content from API
   const fetchContent = useCallback(async () => {
     try {
       const res = await fetch('/api/content', { cache: 'no-store' })
@@ -61,7 +59,6 @@ export default function Homepage() {
 
   useEffect(() => {
     fetchContent()
-    // Refetch every 2 seconds for real-time updates
     const interval = setInterval(fetchContent, 2000)
     return () => clearInterval(interval)
   }, [fetchContent])
@@ -161,23 +158,29 @@ export default function Homepage() {
     }
   }
 
-  // Loading state
   if (!content) {
-    return (
-      <div className="min-h-screen bg-reform-red flex items-center justify-center">
-        <div className="text-reform-black text-2xl font-bold animate-pulse">Loading...</div>
-      </div>
-    )
+    return <div className="min-h-screen bg-reform-red" />
   }
 
-  // Extract homepage content for easier access
   const hp = content.homepage
   const projectsList = content.projects
+
+  const getOrder = (value: unknown) => {
+    const n = typeof value === 'number' ? value : Number(value)
+    return Number.isFinite(n) ? n : 999999
+  }
+
+  const orderedProjectsList = projectsList
+    .map((p, idx) => ({ p, idx }))
+    .sort((a, b) => {
+      const d = getOrder(a.p.order) - getOrder(b.p.order)
+      return d !== 0 ? d : a.idx - b.idx
+    })
+    .map(({ p }) => p)
 
   const isLastTestimonial = currentTestimonial === hp.testimonials.items.length - 1
   const isFirstTestimonial = currentTestimonial === 0
 
-  // Process cards with animation offsets
   const processCards = hp.processSection.cards.map((card: { title: string; image: string; description: string }, i: number) => ({
     ...card,
     offset: i * 0.15,
@@ -298,7 +301,7 @@ export default function Homepage() {
 
         <div className="w-full max-w-[1860px] flex flex-col items-center justify-end gap-5 flex-1">
           <div className="relative w-full flex items-center justify-center my-auto px-2">
-            <h2 className="text-[clamp(60px,20vw,400px)] font-bold leading-[1.2] text-reform-black select-none tracking-normal text-center max-w-[1372px]">
+            <h2 className="text-[clamp(60px,17vw,320px)] font-bold leading-[1.2] text-reform-black select-none tracking-normal text-center max-w-[1372px]">
               {hp.hero.brandName}
             </h2>
           </div>
@@ -321,7 +324,7 @@ export default function Homepage() {
 
       <section
         ref={sectionRef}
-        className="relative bg-black z-10 overflow-hidden rounded-t-[40px]"
+        className="relative bg-white z-10 overflow-hidden rounded-none"
       >
         <div className="flex flex-col px-4 sm:px-6 md:px-8 pt-12 md:pt-16 pb-0">
           <div className="w-full max-w-[1860px] mx-auto flex flex-col lg:flex-row justify-between items-start gap-6 md:gap-8 mb-12 md:mb-16 lg:mb-20">
@@ -389,7 +392,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section ref={thirdSectionRef} className="relative min-h-screen bg-reform-red px-8 py-16 overflow-x-hidden max-w-full">
+      <section ref={thirdSectionRef} className="relative min-h-screen bg-black px-8 py-16 overflow-x-hidden max-w-full">
         <div className="w-full max-w-[1860px] mx-auto flex flex-col">
 
           <div className="w-full text-center px-4 pt-12 md:pt-16 mb-24 md:mb-32 pb-12 md:pb-16">
@@ -398,7 +401,7 @@ export default function Homepage() {
                 <div
                   key={i}
                   ref={(el) => { if (el) lineRefs.current[i] = el }}
-                  className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[i] ? 'font-bold' : 'font-extralight'} text-reform-black`}
+                  className={`text-[clamp(18px,5vw,64px)] transition-all duration-500 whitespace-nowrap ${boldLines[i] ? 'font-bold' : 'font-extralight'} text-white`}
                 >
                   {line}
                 </div>
@@ -408,14 +411,14 @@ export default function Homepage() {
 
           <div className="flex flex-col pt-16">
             <div className="flex justify-between items-start mb-10 md:mb-16">
-              <h2 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold leading-[1.2] text-reform-black">
+              <h2 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold leading-[1.2] text-white">
                 {hp.whatWeDo.title}
               </h2>
               <Link href={hp.whatWeDo.learnMoreLink || "/studio"} className="group relative flex items-center pb-1.5">
-                <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-black tracking-wide">
+                <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-white tracking-wide">
                   {hp.whatWeDo.learnMoreText || "LEARN MORE"}
                 </span>
-                <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white"></div>
               </Link>
             </div>
 
@@ -423,23 +426,23 @@ export default function Homepage() {
               {hp.whatWeDo.cards.map((card, index) => (
                 <div
                   key={index}
-                  className="relative bg-reform-red border-2 border-reform-black rounded-none p-6 md:p-8 lg:p-10 flex flex-col aspect-square transition-all duration-300 cursor-pointer group"
+                  className="relative bg-black border-2 border-white rounded-none p-6 md:p-8 lg:p-10 flex flex-col aspect-square transition-all duration-300 cursor-pointer group"
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <h3 className="text-[16px] xs:text-[17px] sm:text-[18px] md:text-[22px] lg:text-[26px] xl:text-[32px] font-bold leading-[1.1] text-reform-black break-words">
+                  <h3 className="text-[16px] xs:text-[17px] sm:text-[18px] md:text-[22px] lg:text-[26px] xl:text-[32px] font-bold leading-[1.1] text-white break-words">
                     {card.title}
                   </h3>
                   <div className="flex-1" />
                   <div className="relative flex flex-col justify-end gap-4">
-                    <p className={`text-[14px] xs:text-[15px] sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium leading-[1.5] text-reform-black transition-all duration-300 ${hoveredCard === index ? 'mb-2' : 'mb-0'}`}>
+                    <p className={`text-[14px] xs:text-[15px] sm:text-[16px] md:text-[17px] lg:text-[18px] font-medium leading-[1.5] text-white transition-all duration-300 ${hoveredCard === index ? 'mb-2' : 'mb-0'}`}>
                       {card.description}
                     </p>
                     <Link
                       href={card.linkUrl || '/projects'}
                       className={`transition-all duration-300 ${hoveredCard === index ? 'opacity-100 h-auto' : 'opacity-0 h-0 pointer-events-none'}`}
                     >
-                      <span className="text-[16px] md:text-[18px] font-semibold leading-[22px] text-reform-black underline">
+                      <span className="text-[16px] md:text-[18px] font-semibold leading-[22px] text-white underline">
                         {card.linkText || 'VIEW PROJECTS'}
                       </span>
                     </Link>
@@ -448,13 +451,13 @@ export default function Homepage() {
               ))}
             </div>
 
-            <div className="w-full border-t border-reform-black/35 mt-24 md:mt-32 pt-8 md:pt-12"></div>
+            <div className="w-full border-t border-white/35 mt-24 md:mt-32 pt-8 md:pt-12"></div>
 
             <div className="w-full flex flex-col items-center text-center gap-8 md:gap-10 mt-16 md:mt-20">
               <div className="flex flex-col gap-8 md:gap-12">
                 <div
                   ref={(el) => { if (el) lineRefs.current[3] = el }}
-                  className={`text-[clamp(18px,2.2vw,40px)] transition-all duration-500 ${boldLines[3] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                  className={`text-[clamp(18px,2.2vw,40px)] transition-all duration-500 ${boldLines[3] ? 'font-bold' : 'font-extralight'} text-white whitespace-nowrap`}
                 >
                   {hp.latestProjectsText.subtitle}
                 </div>
@@ -462,7 +465,7 @@ export default function Homepage() {
                   <div
                     key={i}
                     ref={(el) => { if (el) lineRefs.current[4 + i] = el }}
-                    className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 ${boldLines[4 + i] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                    className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 ${boldLines[4 + i] ? 'font-bold' : 'font-extralight'} text-white whitespace-nowrap`}
                   >
                     {line}
                   </div>
@@ -472,43 +475,45 @@ export default function Homepage() {
 
             <div className="w-full px-4 md:px-0 mt-48 md:mt-64 xl:mt-72">
               <div className="flex items-center justify-between mb-8 md:mb-12">
-                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold text-reform-black">
+                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[53.8px] font-bold text-white">
                   {hp.latestProjectsText.sectionTitle || 'LATEST PROJECTS'}
                 </h3>
                 <Link href="/projects" className="group relative pb-1.5">
-                  <span className="text-[16px] md:text-[18px] font-semibold text-reform-black">
+                  <span className="text-[16px] md:text-[18px] font-semibold text-white">
                     {hp.latestProjectsText.viewAllText || 'VIEW ALL PROJECTS'}
                   </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white"></div>
                 </Link>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                {projectsList.map((p: ProjectData, idx: number) => (
+                {orderedProjectsList.slice(0, 4).map((p: ProjectData, idx: number) => (
                   <div key={p.id} className="flex flex-col">
                     <Link href={p.href} className="group rounded-none overflow-hidden">
                       <div className="relative w-full h-[240px] sm:h-[300px] md:h-[360px] xl:h-[420px]">
-                        <Image
+                        <img
                           src={p.image}
                           alt={p.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                       </div>
                     </Link>
                     <div className="flex flex-wrap gap-3 mt-5">
                       {p.features.map((f, i) => (
-                        <div key={i} className="inline-flex items-center gap-2 px-4 py-1 border border-reform-black rounded-none text-reform-black">
+                        <Link
+                          key={i}
+                          href={`/projects?tag=${encodeURIComponent(f)}`}
+                          className="inline-flex items-center gap-2 px-4 py-1 border border-white rounded-none text-white hover:bg-white/10 transition-colors"
+                        >
                           <span className="text-[12px] sm:text-[13px] md:text-[14px]">{f}</span>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                     <div className="mt-5">
-                      <h4 className="text-[22px] sm:text-[26px] md:text-[32px] font-bold text-reform-black">
+                      <h4 className="text-[22px] sm:text-[26px] md:text-[32px] font-bold text-white">
                         {p.title}
                       </h4>
-                      <p className="text-[16px] sm:text-[18px] md:text-[20px] font-extralight text-reform-black">
+                      <p className="text-[16px] sm:text-[18px] md:text-[20px] font-extralight text-white/80">
                         {p.subtitle}
                       </p>
                     </div>
@@ -516,14 +521,14 @@ export default function Homepage() {
                 ))}
               </div>
 
-              <div className="w-full mt-24 md:mt-36 xl:mt-48 pt-12 md:pt-16 xl:pt-20 border-t border-reform-black"></div>
+              <div className="w-full mt-24 md:mt-36 xl:mt-48 pt-12 md:pt-16 xl:pt-20 border-t border-white/40"></div>
             </div>
 
             <div className="w-full text-center px-4 mt-16 md:mt-24">
               <div className="flex flex-col gap-8 md:gap-12 items-center">
                 <div
                   ref={(el) => { if (el) lineRefs.current[7] = el }}
-                  className={`text-[clamp(14px,2vw,20px)] transition-all duration-500 ${boldLines[7] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                  className={`text-[clamp(14px,2vw,20px)] transition-all duration-500 ${boldLines[7] ? 'font-bold' : 'font-extralight'} text-white whitespace-nowrap`}
                 >
                   {hp.processSection.subtitle}
                 </div>
@@ -531,7 +536,7 @@ export default function Homepage() {
                   <div
                     key={i}
                     ref={(el) => { if (el) lineRefs.current[8 + i] = el }}
-                    className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 ${boldLines[8 + i] ? 'font-bold' : 'font-extralight'} text-reform-black whitespace-nowrap`}
+                    className={`text-[clamp(20px,5.5vw,104px)] transition-all duration-500 ${boldLines[8 + i] ? 'font-bold' : 'font-extralight'} text-white whitespace-nowrap`}
                   >
                     {line}
                   </div>
@@ -565,30 +570,28 @@ export default function Homepage() {
                   return (
                     <div
                       key={i}
-                      className="bg-black rounded-none p-4 xs:p-5 sm:p-6 md:p-7 lg:p-8"
+                      className="bg-black border border-white rounded-none p-4 xs:p-5 sm:p-6 md:p-7 lg:p-8"
                       style={{
                         opacity,
                         transform: `translateY(${translateY + stairOffset}px) scale(${scale})`,
                         transition: 'transform 400ms ease-out, opacity 400ms ease-out'
                       }}
                     >
-                      <div className="text-reform-red text-[28px] xs:text-[32px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] font-extrabold mb-3 md:mb-4 tracking-wide">
+                      <div className="text-white text-[28px] xs:text-[32px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] font-extrabold mb-3 md:mb-4 tracking-wide">
                         {c.title}
                       </div>
                       <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[300px] overflow-hidden rounded-none mb-3 md:mb-4">
-                        <Image
+                        <img
                           src={c.image}
                           alt={c.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                          className="object-cover"
+                          className="absolute inset-0 w-full h-full object-cover"
                           style={{
                             transform: `translateY(${imgShift}px)`,
                             transition: 'transform 400ms ease-in-out'
                           }}
                         />
                       </div>
-                      <p className="text-reform-red text-[13px] xs:text-[14px] sm:text-[14px] md:text-[15px] lg:text-[16px] font-extralight leading-[1.6]">
+                      <p className="text-white text-[13px] xs:text-[14px] sm:text-[14px] md:text-[15px] lg:text-[16px] font-extralight leading-[1.6]">
                         {c.description}
                       </p>
                     </div>
@@ -602,11 +605,11 @@ export default function Homepage() {
 
           <div className="w-full px-4 md:px-0 mt-24 md:mt-32">
             <div className="flex justify-between items-start mb-16 md:mb-24">
-              <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-bold leading-[1.2] text-reform-black">
+              <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-bold leading-[1.2] text-white">
                 {hp.testimonials.title}
               </h2>
               <Link href="/studio" className="group relative flex items-center pb-1.5">
-                <span className="text-[14px] md:text-[16px] lg:text-[18px] font-semibold leading-[22px] text-reform-black tracking-wide">
+                <span className="text-[14px] md:text-[16px] lg:text-[18px] font-semibold leading-[22px] text-white tracking-wide">
                   ABOUT US
                 </span>
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
@@ -617,7 +620,7 @@ export default function Homepage() {
               <button
                 onClick={prevTestimonial}
                 disabled={isFirstTestimonial}
-                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-reform-black rounded-none flex items-center justify-center transition-colors ${isFirstTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-reform-black hover:text-reform-red'}`}
+                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-white rounded-none flex items-center justify-center transition-colors text-white ${isFirstTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white hover:text-black'}`}
                 aria-label="Previous testimonial"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -627,14 +630,14 @@ export default function Homepage() {
               <button
                 onClick={nextTestimonial}
                 disabled={isLastTestimonial}
-                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-reform-black rounded-none flex items-center justify-center transition-colors ${isLastTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-reform-black hover:text-reform-red'}`}
+                className={`w-12 h-12 md:w-14 md:h-14 border-2 border-white rounded-none flex items-center justify-center transition-colors text-white ${isLastTestimonial ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white hover:text-black'}`}
                 aria-label="Next testimonial"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </button>
-              <div className="text-[16px] md:text-[18px] font-medium text-reform-black ml-8 md:ml-12">
+              <div className="text-[16px] md:text-[18px] font-medium text-white ml-8 md:ml-12">
                 {currentTestimonial + 1} / {hp.testimonials.items.length}
               </div>
             </div>
@@ -652,10 +655,10 @@ export default function Homepage() {
                       : 'none'
                   }}
                 >
-                  <blockquote className="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] font-medium leading-[1.3] text-reform-black mb-8 md:mb-12 text-left">
+                  <blockquote className="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] font-medium leading-[1.3] text-white mb-8 md:mb-12 text-left">
                     &ldquo;{hp.testimonials.items[currentTestimonial]?.quote}&rdquo;
                   </blockquote>
-                  <div className="text-[16px] sm:text-[18px] md:text-[20px] text-reform-black text-left">
+                  <div className="text-[16px] sm:text-[18px] md:text-[20px] text-white text-left">
                     <div className="font-bold mb-1">{hp.testimonials.items[currentTestimonial]?.name}</div>
                     <div className="font-light">{hp.testimonials.items[currentTestimonial]?.position}</div>
                   </div>
@@ -663,16 +666,16 @@ export default function Homepage() {
               </div>
             </div>
 
-            <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] mt-24 md:mt-32 border-t border-reform-black"></div>
+            <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] mt-24 md:mt-32 border-t border-white/40"></div>
 
           </div>
         </div>
       </section>
 
-      <section className="sticky top-0 h-screen bg-reform-red flex items-start justify-center px-8 py-24 z-10">
+      <section className="sticky top-0 h-screen bg-black flex items-start justify-center px-8 py-24 z-10">
         <div className="w-full max-w-[1860px]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <h2 className="text-[36px] sm:text-[44px] md:text-[53.8px] lg:text-[64px] font-bold leading-[1.2] text-reform-black">
+            <h2 className="text-[36px] sm:text-[44px] md:text-[53.8px] lg:text-[64px] font-bold leading-[1.2] text-white">
               {hp.ctaSection.heading.map((line, i) => (
                 <span key={i}>
                   {line}
@@ -681,10 +684,10 @@ export default function Homepage() {
               ))}
             </h2>
             <Link href={hp.ctaSection.buttonLink || '/contact'} className="group relative flex items-center pb-1.5 shrink-0">
-              <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-black tracking-wide">
+              <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-white tracking-wide">
                 {hp.ctaSection.buttonText}
               </span>
-              <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white"></div>
             </Link>
           </div>
         </div>
@@ -692,10 +695,10 @@ export default function Homepage() {
 
       <section
         ref={footerRef}
-        className="relative h-[120vh] bg-reform-red overflow-visible z-20"
+        className="relative h-[120vh] bg-black overflow-visible z-20"
       >
         <div
-          className="fixed bottom-0 left-0 w-full bg-black transition-all duration-300 ease-out z-30"
+          className="fixed bottom-0 left-0 w-full bg-white transition-all duration-300 ease-out z-30"
           style={{
             height: `${footerProgress * 100}vh`,
             borderTopLeftRadius: '0px',

@@ -86,9 +86,7 @@ export default function Database() {
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-reform-red flex items-center justify-center">
-        <div className="text-reform-black text-2xl font-bold animate-pulse">Loading...</div>
-      </div>
+      <div className="min-h-screen bg-reform-red" />
     )
   }
 

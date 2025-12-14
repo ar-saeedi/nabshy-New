@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 
@@ -12,6 +11,7 @@ interface Project {
   image: string
   href: string
   features: string[]
+  order?: number
 }
 
 interface FooterContent {
@@ -43,6 +43,12 @@ export default function Projects() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const searchParams = useSearchParams()
   const initializedFromQuery = useRef(false)
+
+  const normalizeTag = (tag: unknown) => String(tag ?? '').trim().toLowerCase()
+  const slugifyTag = (tag: unknown) =>
+    normalizeTag(tag)
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '')
 
   const fetchContent = useCallback(async () => {
     try {
@@ -80,11 +86,27 @@ export default function Projects() {
 
   useEffect(() => {
     if (initializedFromQuery.current) return
+
+    const tag = searchParams.get('tag')
+    if (tag) {
+      setActiveFilter(tag)
+      initializedFromQuery.current = true
+      return
+    }
+
     const category = searchParams.get('category')
-    if (category === 'brand-strategy') setActiveFilter('BRAND STRATEGY')
-    else if (category === 'visual-identity') setActiveFilter('VISUAL IDENTITY')
-    else if (category === 'website') setActiveFilter('WEBSITE')
-    else if (category === 'all') setActiveFilter('ALL')
+    if (!category) {
+      initializedFromQuery.current = true
+      return
+    }
+
+    if (category === 'all') {
+      setActiveFilter('ALL')
+      initializedFromQuery.current = true
+      return
+    }
+
+    setActiveFilter(category)
     initializedFromQuery.current = true
   }, [searchParams])
 
@@ -94,15 +116,22 @@ export default function Projects() {
     setTimeout(() => {
       setActiveFilter(filter)
       setIsTransitioning(false)
+      try {
+        const next = new URLSearchParams(window.location.search)
+        if (filter === 'ALL') next.delete('tag')
+        else next.set('tag', filter)
+        next.delete('category')
+        const q = next.toString()
+        window.history.replaceState({}, '', q ? `/projects?${q}` : '/projects')
+      } catch {
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }, 300)
   }
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-reform-red flex items-center justify-center">
-        <div className="text-reform-black text-2xl font-bold animate-pulse">Loading...</div>
-      </div>
+      <div className="min-h-screen bg-black" />
     )
   }
 
@@ -110,42 +139,82 @@ export default function Projects() {
   const projects = content.projects
   const footer = content.homepage.footer
 
-  const filteredProjects = projects.filter((project) => {
-    if (activeFilter === 'ALL') return true
-    if (activeFilter === 'BRAND STRATEGY') return project.features.includes('Brand Strategy')
-    if (activeFilter === 'VISUAL IDENTITY') return project.features.includes('Visual Identity')
-    if (activeFilter === 'WEBSITE') return project.features.includes('Web Development')
-    return true
+  const getOrder = (value: unknown) => {
+    const n = typeof value === 'number' ? value : Number(value)
+    return Number.isFinite(n) ? n : 999999
+  }
+
+  const orderedProjects = projects
+    .map((p, idx) => ({ p, idx }))
+    .sort((a, b) => {
+      const d = getOrder(a.p.order) - getOrder(b.p.order)
+      return d !== 0 ? d : a.idx - b.idx
+    })
+    .map(({ p }) => p)
+
+  const derivedTags = (() => {
+    const seen = new Set<string>()
+    const out: string[] = []
+    for (const project of orderedProjects) {
+      for (const f of project.features || []) {
+        const raw = String(f ?? '').trim()
+        if (!raw) continue
+        const key = normalizeTag(raw)
+        if (seen.has(key)) continue
+        seen.add(key)
+        out.push(raw)
+      }
+    }
+    return out
+  })()
+
+  const resolvedActiveFilter = (() => {
+    if (activeFilter === 'ALL') return 'ALL'
+
+    const direct = derivedTags.find(t => normalizeTag(t) === normalizeTag(activeFilter))
+    if (direct) return direct
+
+    const bySlug = derivedTags.find(t => slugifyTag(t) === normalizeTag(activeFilter))
+    if (bySlug) return bySlug
+
+    return activeFilter
+  })()
+
+  const filters = ['ALL', ...derivedTags]
+
+  const filteredProjects = orderedProjects.filter((project) => {
+    if (resolvedActiveFilter === 'ALL') return true
+    return (project.features || []).some(f => normalizeTag(f) === normalizeTag(resolvedActiveFilter))
   })
 
   return (
-    <div className="min-h-screen bg-reform-red px-4 sm:px-6 md:px-8 py-6 md:py-8">
+    <div className="min-h-screen bg-black px-4 sm:px-6 md:px-8 py-6 md:py-8">
       <header className="w-full max-w-[1860px] mx-auto flex justify-between items-start gap-4 mb-10 md:mb-16 animate-slide-up">
-        <Link href="/" className="text-[20px] xs:text-[22px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold text-reform-black leading-none">
+        <Link href="/" className="text-[20px] xs:text-[22px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold text-white leading-none">
           NABSHY
         </Link>
 
         <nav className="hidden lg:flex flex-row gap-8 lg:gap-12 xl:gap-16">
-          <Link href="/projects" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1">PROJECTS</Link>
-          <Link href="/database" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1">DATABASE</Link>
-          <Link href="/studio" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1">STUDIO</Link>
-          <Link href="/contact" className="text-[15px] lg:text-[16px] font-medium text-reform-black hover:opacity-70 transition-opacity border-b-2 border-reform-black pb-1">CONTACT</Link>
+          <Link href="/projects" className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1">PROJECTS</Link>
+          <Link href="/database" className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1">DATABASE</Link>
+          <Link href="/studio" className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1">STUDIO</Link>
+          <Link href="/contact" className="text-[15px] lg:text-[16px] font-medium text-white hover:opacity-80 transition-opacity border-b-2 border-white pb-1">CONTACT</Link>
         </nav>
 
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu">
-          <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-          <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
-          <span className={`w-6 h-0.5 bg-reform-black transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+          <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+          <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
         </button>
 
         {mobileMenuOpen && (
           <div className="lg:hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
-            <div className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-reform-red shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="absolute right-0 top-0 h-full w-[70%] max-w-[280px] bg-black shadow-2xl" onClick={(e) => e.stopPropagation()}>
               <nav className="flex flex-col gap-8 items-start p-8 mt-20">
-                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">PROJECTS</Link>
-                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">DATABASE</Link>
-                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">STUDIO</Link>
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-reform-black hover:opacity-70 transition-opacity">CONTACT</Link>
+                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-white hover:opacity-80 transition-opacity">PROJECTS</Link>
+                <Link href="/database" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-white hover:opacity-80 transition-opacity">DATABASE</Link>
+                <Link href="/studio" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-white hover:opacity-80 transition-opacity">STUDIO</Link>
+                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[20px] font-medium text-white hover:opacity-80 transition-opacity">CONTACT</Link>
               </nav>
             </div>
           </div>
@@ -154,16 +223,16 @@ export default function Projects() {
 
       <main className="w-full max-w-[1860px] mx-auto animate-slide-up">
         <div className="mb-6 md:mb-8">
-          <h1 className="text-[28px] xs:text-[32px] sm:text-[36px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold text-reform-black mb-3 md:mb-4">
+          <h1 className="text-[28px] xs:text-[32px] sm:text-[36px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold text-white mb-3 md:mb-4">
             {projectsPage.title}
           </h1>
           <div className="flex flex-wrap items-center gap-2 xs:gap-2.5 sm:gap-3 text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] tracking-wide">
-            {projectsPage.filters.map((filter, i) => (
+            {filters.map((filter, i) => (
               <span key={filter} className="flex items-center gap-2 xs:gap-2.5 sm:gap-3">
-                {i > 0 && <span className="text-reform-black/70">/</span>}
+                {i > 0 && <span className="text-white/60">/</span>}
                 <button 
                   onClick={() => handleFilterChange(filter)}
-                  className={`transition-all whitespace-nowrap ${activeFilter === filter ? 'font-bold text-reform-black' : 'font-medium text-reform-black/80 hover:text-reform-black'}`}
+                  className={`transition-all whitespace-nowrap ${resolvedActiveFilter === filter ? 'font-bold text-white' : 'font-medium text-white/70 hover:text-white'}`}
                 >
                   {filter}
                 </button>
@@ -173,7 +242,7 @@ export default function Projects() {
         </div>
       </main>
 
-      <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] border-t border-reform-black mb-12" />
+      <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] border-t border-white/40 mb-12" />
 
       <main className="w-full max-w-[1860px] mx-auto">
         <section 
@@ -183,15 +252,26 @@ export default function Projects() {
           {filteredProjects.map((project) => (
             <Link href={project.href} key={project.id} className="group flex flex-col gap-4">
               <div className="w-full aspect-[16/9] rounded-none overflow-hidden bg-black">
-                <Image src={project.image} alt={project.title} width={1600} height={900} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-[22px] sm:text-[26px] md:text-[32px] font-bold text-reform-black">{project.title}</h2>
-                <p className="text-[16px] sm:text-[18px] md:text-[20px] font-extralight text-reform-black">{project.subtitle}</p>
+                <h2 className="text-[22px] sm:text-[26px] md:text-[32px] font-bold text-white">{project.title}</h2>
+                <p className="text-[16px] sm:text-[18px] md:text-[20px] font-extralight text-white/80">{project.subtitle}</p>
               </div>
               <div className="flex flex-wrap gap-3 mt-2">
-                {project.features.map((feature) => (
-                  <span key={feature} className="px-4 py-1 border border-reform-black rounded-none text-[12px] sm:text-[13px] md:text-[14px] text-reform-black">{feature}</span>
+                {(project.features || []).map((feature, featureIndex) => (
+                  <button
+                    key={`${project.id}-${featureIndex}`}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      handleFilterChange(feature)
+                    }}
+                    className="px-4 py-1 border border-white rounded-none text-[12px] sm:text-[13px] md:text-[14px] text-white hover:bg-white/10 transition-colors"
+                  >
+                    {feature}
+                  </button>
                 ))}
               </div>
             </Link>
@@ -199,26 +279,26 @@ export default function Projects() {
         </section>
       </main>
 
-      <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] border-t border-reform-black my-16" />
+      <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] border-t border-white/40 my-16" />
 
-      <section className="sticky top-0 h-screen bg-reform-red flex items-start justify-center px-8 py-24 z-10">
+      <section className="sticky top-0 h-screen bg-black flex items-start justify-center px-8 py-24 z-10">
         <div className="w-full max-w-[1860px]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <h2 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-bold leading-[1.2] text-reform-black">
+            <h2 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-bold leading-[1.2] text-white">
               {projectsPage.ctaHeading.map((line, i) => (
                 <span key={i}>{line}{i < projectsPage.ctaHeading.length - 1 && <br />}</span>
               ))}
             </h2>
             <Link href="/contact" className="group relative flex items-center pb-1.5 shrink-0">
-              <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-reform-black tracking-wide">GET IN TOUCH</span>
-              <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-reform-black"></div>
+              <span className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold leading-[22px] text-white tracking-wide">GET IN TOUCH</span>
+              <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white"></div>
             </Link>
           </div>
         </div>
       </section>
 
-      <section ref={footerRef} className="relative h-[120vh] bg-reform-red overflow-visible z-20">
-        <div className="fixed bottom-0 left-0 w-full bg-black transition-all duration-300 ease-out z-30" style={{ height: `${footerProgress * 100}vh` }}>
+      <section ref={footerRef} className="relative h-[120vh] bg-black overflow-visible z-20">
+        <div className="fixed bottom-0 left-0 w-full bg-white transition-all duration-300 ease-out z-30" style={{ height: `${footerProgress * 100}vh` }}>
           <div className="relative w-full h-full px-8 py-16">
             <div className="w-full max-w-[1860px] mx-auto h-full flex flex-col justify-between">
               <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-12 transition-opacity duration-500" style={{ opacity: footerProgress > 0.3 ? 1 : 0 }}>

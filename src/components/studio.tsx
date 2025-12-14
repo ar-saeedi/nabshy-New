@@ -47,8 +47,6 @@ export default function Studio() {
 
   useEffect(() => {
     fetchContent()
-    const interval = setInterval(fetchContent, 2000)
-    return () => clearInterval(interval)
   }, [fetchContent])
 
   useEffect(() => {
@@ -71,7 +69,7 @@ export default function Studio() {
 
         if (sectionTop < windowHeight && sectionTop > -sectionHeight) {
           const scrollProgress = (windowHeight - sectionTop) / (windowHeight + sectionHeight * 0.5)
-          return Math.min(1, Math.max(0.4, 0.4 + scrollProgress * 0.7))
+          return Math.min(1, Math.max(0.4, 0.4 + scrollProgress * 0.8))
         }
         if (sectionTop <= -sectionHeight) return 1
         return 0.4
@@ -94,9 +92,7 @@ export default function Studio() {
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-reform-red flex items-center justify-center">
-        <div className="text-reform-black text-2xl font-bold animate-pulse">Loading...</div>
-      </div>
+      <div className="min-h-screen bg-reform-red" />
     )
   }
 
@@ -182,7 +178,7 @@ export default function Studio() {
               >
                 <div
                   className="flex items-center justify-center transition-all duration-300 ease-out overflow-hidden"
-                  style={{ width: `${scale * 100}vw`, height: `${scale * 55}vh`, marginTop: index > 0 ? '4px' : '0px' }}
+                  style={{ width: `${scale * 100}vw`, height: `${scale * 70}vh`, marginTop: index > 0 ? '4px' : '0px' }}
                 >
                   <video autoPlay loop muted playsInline className="w-full h-full object-cover">
                     <source src={founder.video} type="video/mp4" />
@@ -190,16 +186,16 @@ export default function Studio() {
                 </div>
                 
                 <div 
-                  className={`flex justify-center transition-all duration-300 ease-out overflow-hidden ${index % 2 === 0 ? 'bg-black text-white' : 'bg-reform-red text-reform-black'}`}
-                  style={{ width: `${scale * 100}vw`, paddingTop: `${scale * 48}px`, paddingBottom: `${scale * 48}px`, paddingLeft: '16px', paddingRight: '16px' }}
+                  className="flex justify-center transition-all duration-300 ease-out overflow-hidden bg-black text-white"
+                  style={{ width: `${scale * 100}vw`, paddingTop: `${scale * 28}px`, paddingBottom: `${scale * 28}px`, paddingLeft: '16px', paddingRight: '16px' }}
                 >
                   <div className="w-full max-w-[1860px] mx-auto">
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-12">
                       <div className="flex flex-col gap-2">
                         <h3 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[52px] font-bold">{founder.name}</h3>
-                        <p className={`text-[14px] sm:text-[16px] md:text-[18px] font-medium tracking-wider ${index % 2 === 0 ? 'text-reform-red' : 'text-reform-black/70'}`}>{founder.role}</p>
+                        <p className="text-[14px] sm:text-[16px] md:text-[18px] font-medium tracking-wider text-reform-red">{founder.role}</p>
                       </div>
-                      <p className={`text-[14px] sm:text-[16px] md:text-[18px] font-light leading-relaxed max-w-[600px] ${index % 2 === 0 ? 'text-white/80' : 'text-reform-black/80'}`}>{founder.description}</p>
+                      <p className="text-[14px] sm:text-[16px] md:text-[18px] font-light leading-relaxed max-w-[600px] text-white/80">{founder.description}</p>
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,10 @@
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Projects from '@/components/projects'
+
+export const metadata: Metadata = {
+	title: 'projects',
+}
 
 export default function ProjectsPage() {
   return (

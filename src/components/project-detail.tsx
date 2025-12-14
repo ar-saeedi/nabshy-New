@@ -109,9 +109,7 @@ export default function ProjectDetail({ projectId }: ProjectDetailProps) {
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white text-2xl font-bold animate-pulse">Loading...</div>
-      </div>
+      <div className="min-h-screen bg-black" />
     )
   }
 
@@ -148,7 +146,7 @@ export default function ProjectDetail({ projectId }: ProjectDetailProps) {
   return (
     <div className="bg-black text-white min-h-screen">
       <section className="relative min-h-screen w-full overflow-hidden">
-        <Image src={project.heroImage} alt={project.title} fill priority className="object-cover" />
+        <img src={project.heroImage} alt={project.title} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/45" />
 
         <div className="relative z-10 flex flex-col min-h-screen px-4 sm:px-6 md:px-8 py-6 sm:py-8">
@@ -229,7 +227,7 @@ export default function ProjectDetail({ projectId }: ProjectDetailProps) {
           <div className="w-full max-w-[1860px] mx-auto">
             <div ref={image1Ref} className={`w-full md:w-[72%] lg:w-[60%] transition-all duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${image1Visible ? 'animate-slide-up' : 'opacity-0 translate-y-16'}`}>
               <div className="relative w-full aspect-[16/10] overflow-hidden">
-                <Image src={project.galleryImages[0]} alt={`${project.title} visual 1`} fill sizes="(min-width: 1024px) 60vw, 90vw" className="object-cover" />
+                <img src={project.galleryImages[0]} alt={`${project.title} visual 1`} className="absolute inset-0 w-full h-full object-cover" />
               </div>
             </div>
 
@@ -238,7 +236,7 @@ export default function ProjectDetail({ projectId }: ProjectDetailProps) {
             <div className="flex justify-end">
               <div ref={image2Ref} className={`w-full md:w-[72%] lg:w-[60%] transition-all duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${image2Visible ? 'animate-slide-up' : 'opacity-0 translate-y-16'}`}>
                 <div className="relative w-full aspect-[16/10] overflow-hidden">
-                  <Image src={project.galleryImages[1]} alt={`${project.title} visual 2`} fill sizes="(min-width: 1024px) 60vw, 90vw" className="object-cover" />
+                  <img src={project.galleryImages[1]} alt={`${project.title} visual 2`} className="absolute inset-0 w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -258,19 +256,29 @@ export default function ProjectDetail({ projectId }: ProjectDetailProps) {
         <section className="w-full bg-black px-4 sm:px-6 md:px-8 pb-20 md:pb-32">
           <div className="w-full max-w-[1860px] mx-auto">
             <div ref={carouselRef} className={`relative flex items-center transition-all duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${carouselVisible ? 'animate-slide-up' : 'opacity-0 translate-y-16'}`}>
-              <button type="button" onClick={handlePrev} aria-label="Previous images" className="absolute left-2 sm:left-0 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-none border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors">
+              <button
+                type="button"
+                onClick={handlePrev}
+                aria-label="Previous images"
+                className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-none border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors"
+              >
                 <span className="text-[18px] md:text-[20px]">&#8592;</span>
               </button>
 
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-10">
                 {project.carouselSlides[slideIndex].map((src, idx) => (
                   <div key={`${slideIndex}-${src}`} className="w-full aspect-[16/10] overflow-hidden bg-black" style={{ animation: `${direction === 'right' ? 'slideInFromRight' : 'slideInFromLeft'} 0.5s ease-out`, animationDelay: `${idx * 0.1}s`, opacity: 0, animationFillMode: 'forwards' }}>
-                    <Image src={src} alt="Gallery image" width={1600} height={1000} className="w-full h-full object-cover" />
+                    <img src={src} alt="Gallery image" className="w-full h-full object-cover" />
                   </div>
                 ))}
               </div>
 
-              <button type="button" onClick={handleNext} aria-label="Next images" className="absolute right-2 sm:right-0 sm:translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-none border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors">
+              <button
+                type="button"
+                onClick={handleNext}
+                aria-label="Next images"
+                className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-none border border-white/60 flex items-center justify-center bg-black/60 hover:bg-white hover:text-black transition-colors"
+              >
                 <span className="text-[18px] md:text-[20px]">&#8594;</span>
               </button>
             </div>
@@ -292,7 +300,7 @@ export default function ProjectDetail({ projectId }: ProjectDetailProps) {
               {nextProjectsData.map((nextProject) => (
                 <Link key={nextProject!.id} href={nextProject!.href} className="group flex flex-col gap-4">
                   <div className="w-full aspect-[16/9] rounded-none overflow-hidden bg-white/5">
-                    <Image src={nextProject!.image} alt={nextProject!.title} width={1600} height={900} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                    <img src={nextProject!.image} alt={nextProject!.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                   </div>
                   <div className="flex flex-wrap gap-3 mt-3">
                     {nextProject!.features.map((feature) => (

@@ -11,6 +11,7 @@ export default function AdminPanel() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   
   const [content, setContent] = useState<Record<string, unknown> | null>(null)
   const [activePage, setActivePage] = useState<PageKey>('homepage')
@@ -188,7 +189,6 @@ export default function AdminPanel() {
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-          <p className="text-white/60 text-sm tracking-wide">Loading...</p>
         </div>
       </div>
     )
@@ -198,9 +198,15 @@ export default function AdminPanel() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4 relative overflow-hidden">
         {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'url("/Logoicon-01.png")',
+            backgroundSize: '40px 40px',
+            backgroundRepeat: 'repeat',
+            backgroundPosition: 'center',
+          }}
+        />
         
         {/* Gradient Orbs */}
         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-3xl" />
@@ -220,9 +226,9 @@ export default function AdminPanel() {
           </div>
 
           {/* Login Card */}
-          <div className="bg-white/[0.03] backdrop-blur-xl rounded-2xl p-8 border border-white/[0.08] shadow-2xl shadow-black/20">
+          <div className="bg-white/[0.03] backdrop-blur-xl rounded-none p-8 border border-white/[0.08] shadow-2xl shadow-black/20">
             <div className="text-center mb-8">
-              <h1 className="text-2xl font-semibold text-white tracking-tight">Welcome back</h1>
+              <h1 className="text-2xl font-semibold text-white tracking-tight">Welcome</h1>
               <p className="text-white/40 text-sm mt-2">Sign in to access the admin panel</p>
             </div>
 
@@ -254,18 +260,37 @@ export default function AdminPanel() {
                 </label>
                 <div className="relative">
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full bg-white/[0.04] text-white rounded-xl px-4 py-3.5 border border-white/[0.08] focus:border-white/20 focus:bg-white/[0.06] focus:outline-none transition-all placeholder-white/20"
                     placeholder="••••••••"
                     required
                   />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                    <svg className="w-5 h-5 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition-colors"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      {showPassword ? (
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M3 3l18 18M10.477 10.49A3 3 0 0113.5 13.5m-2.26 3.24C10.83 16.9 10.42 17 10 17c-3.333 0-6-3.5-7-5 0 0 1.273-1.83 3.272-3.177M9.88 9.88C10.27 9.34 10.86 9 11.5 9a3 3 0 012.995 2.824M6.228 6.228C7.5 5.5 8.907 5 10 5c3.333 0 6 3.5 7 5 0 0-.463.666-1.273 1.48"
+                        />
+                      ) : (
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7zm9.542-3a3 3 0 100 6 3 3 0 000-6z"
+                        />
+                      )}
                     </svg>
-                  </div>
+                  </button>
                 </div>
               </div>
 
@@ -659,7 +684,18 @@ export default function AdminPanel() {
                       <input type="text" value={String((homepage.latestProjectsText as Record<string, unknown>)?.viewAllText || '')} onChange={(e) => updateNestedValue(['homepage', 'latestProjectsText', 'viewAllText'], e.target.value)} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" placeholder="VIEW ALL PROJECTS" />
                     </div>
                   </div>
-                  {(projects as Array<Record<string, unknown>>).slice(0, 4).map((project, i) => (
+                  {(projects as Array<Record<string, unknown>>)
+                    .map((p, idx) => ({ p, idx }))
+                    .sort((a, b) => {
+                      const ao = typeof a.p.order === 'number' ? a.p.order : Number(a.p.order)
+                      const bo = typeof b.p.order === 'number' ? b.p.order : Number(b.p.order)
+                      const av = Number.isFinite(ao) ? ao : 999999
+                      const bv = Number.isFinite(bo) ? bo : 999999
+                      const d = av - bv
+                      return d !== 0 ? d : a.idx - b.idx
+                    })
+                    .slice(0, 4)
+                    .map(({ p: project, idx: projectIndex }, i) => (
                     <div key={String(project.id)} className="bg-gray-50 p-5 rounded-lg space-y-4 border border-gray-200">
                       <h4 className="font-bold text-gray-900">{String(project.title) || `Project ${i + 1}`}</h4>
                       <div className="grid grid-cols-2 gap-4">
@@ -667,7 +703,7 @@ export default function AdminPanel() {
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Title</label>
                           <input type="text" value={String(project.title || '')} onChange={(e) => {
                             const newProjects = [...(projects as Array<Record<string, unknown>>)]
-                            newProjects[i] = { ...newProjects[i], title: e.target.value }
+                            newProjects[projectIndex] = { ...newProjects[projectIndex], title: e.target.value }
                             updateNestedValue(['projects'], newProjects)
                           }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
                         </div>
@@ -675,7 +711,7 @@ export default function AdminPanel() {
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Subtitle</label>
                           <input type="text" value={String(project.subtitle || '')} onChange={(e) => {
                             const newProjects = [...(projects as Array<Record<string, unknown>>)]
-                            newProjects[i] = { ...newProjects[i], subtitle: e.target.value }
+                            newProjects[projectIndex] = { ...newProjects[projectIndex], subtitle: e.target.value }
                             updateNestedValue(['projects'], newProjects)
                           }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
                         </div>
@@ -685,10 +721,10 @@ export default function AdminPanel() {
                         <div className="flex gap-2">
                           <input type="text" value={String(project.image || '')} onChange={(e) => {
                             const newProjects = [...(projects as Array<Record<string, unknown>>)]
-                            newProjects[i] = { ...newProjects[i], image: e.target.value }
+                            newProjects[projectIndex] = { ...newProjects[projectIndex], image: e.target.value }
                             updateNestedValue(['projects'], newProjects)
                           }} className="flex-1 bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
-                          <button type="button" onClick={() => triggerUpload(['projects', i.toString(), 'image'])} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                          <button type="button" onClick={() => triggerUpload(['projects', projectIndex.toString(), 'image'])} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                             Upload
                           </button>
                         </div>
@@ -697,7 +733,7 @@ export default function AdminPanel() {
                         <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Tags/Features (comma separated)</label>
                         <input type="text" value={(project.features as string[] || []).join(', ')} onChange={(e) => {
                           const newProjects = [...(projects as Array<Record<string, unknown>>)]
-                          newProjects[i] = { ...newProjects[i], features: e.target.value.split(',').map(s => s.trim()).filter(s => s) }
+                          newProjects[projectIndex] = { ...newProjects[projectIndex], features: e.target.value.split(',').map(s => s.trim()).filter(s => s) }
                           updateNestedValue(['projects'], newProjects)
                         }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" placeholder="Brand Strategy, Visual Identity" />
                       </div>
@@ -956,6 +992,16 @@ export default function AdminPanel() {
                         <h4 className="text-lg font-bold text-gray-900 mb-3">{String(project.title)}</h4>
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
+                            <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Display Order</label>
+                            <input type="number" value={project.order === undefined ? '' : String(project.order)} onChange={(e) => {
+                              const raw = e.target.value
+                              const n = raw === '' ? undefined : Number(raw)
+                              const newProjects = [...projects]
+                              newProjects[i] = { ...newProjects[i], order: (n !== undefined && Number.isFinite(n)) ? n : undefined }
+                              updateNestedValue(['projects'], newProjects)
+                            }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
+                          </div>
+                          <div>
                             <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Card Image</label>
                             <div className="flex gap-2">
                               <input type="text" value={String(project.image || '')} onChange={(e) => {
@@ -968,7 +1014,7 @@ export default function AdminPanel() {
                                 fileInputRef.current?.click()
                               }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                             </div>
-                            {project.image ? <div className="mt-2 relative w-24 h-16"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div> : null}
+                            {project.image ? <img src={String(project.image)} alt="" className="mt-2 w-24 h-16 object-cover rounded" /> : null}
                           </div>
                           <div>
                             <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Title</label>
@@ -1029,6 +1075,45 @@ export default function AdminPanel() {
                         <span className="text-gray-500 text-sm">/projects/{String(project.id)}</span>
                       </div>
 
+                      {/* Project Slug/ID */}
+                      <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                        <label className="block text-sm font-medium mb-2 text-gray-700">Project URL Slug (ID)</label>
+                        <p className="text-gray-500 text-xs mb-2">This determines the URL path: /projects/[slug]</p>
+                        <input type="text" value={String(project.id || '')} onChange={(e) => {
+                          const newSlug = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+                          const newProjects = [...projects]
+                          newProjects[i] = { ...newProjects[i], id: newSlug, href: '/projects/' + newSlug }
+                          updateNestedValue(['projects'], newProjects)
+                        }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" placeholder="e.g., my-project-name" />
+
+                        <div className="mt-4">
+                          <label className="block text-sm font-medium mb-2 text-gray-700">Display Order</label>
+                          <p className="text-gray-500 text-xs mb-2">Lower numbers appear first on /projects and Homepage.</p>
+                          <input type="number" value={project.order === undefined ? '' : String(project.order)} onChange={(e) => {
+                            const raw = e.target.value
+                            const n = raw === '' ? undefined : Number(raw)
+                            const newProjects = [...projects]
+                            newProjects[i] = { ...newProjects[i], order: (n !== undefined && Number.isFinite(n)) ? n : undefined }
+                            updateNestedValue(['projects'], newProjects)
+                          }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" placeholder="e.g., 1" />
+                        </div>
+                      </div>
+
+                      {/* Remove Project */}
+                      <div className="flex justify-end mt-3">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!window.confirm('Remove this project? This cannot be undone.')) return
+                            const newProjects = projects.filter((_, index) => index !== i)
+                            updateNestedValue(['projects'], newProjects)
+                          }}
+                          className="px-3 py-1.5 text-sm rounded-lg bg-red-600 hover:bg-red-700 text-white"
+                        >
+                          Remove Project
+                        </button>
+                      </div>
+
                       {/* BLOCK 1: Hero Section */}
                       <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
                         <h4 className="text-lg font-semibold text-blue-600 mb-3">Block 1: Hero Section</h4>
@@ -1046,7 +1131,7 @@ export default function AdminPanel() {
                               fileInputRef.current?.click()
                             }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                           </div>
-                          {project.heroImage ? <div className="mt-2 relative w-48 h-28"><Image src={String(project.heroImage)} alt="" fill className="object-cover rounded" /></div> : null}
+                          {project.heroImage ? <img src={String(project.heroImage)} alt="" className="mt-2 w-48 h-28 object-cover rounded" /> : null}
                         </div>
                         <div>
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Hero Title Lines</label>
@@ -1083,7 +1168,7 @@ export default function AdminPanel() {
                                   fileInputRef.current?.click()
                                 }} className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded-lg text-xs">Upload</button>
                               </div>
-                              {img ? <div className="mt-2 relative w-24 h-16"><Image src={img} alt="" fill className="object-cover rounded" /></div> : null}
+                              {img ? <img src={img} alt="" className="mt-2 w-24 h-16 object-cover rounded" /> : null}
                             </div>
                           ))}
                         </div>
@@ -1131,7 +1216,7 @@ export default function AdminPanel() {
                                         fileInputRef.current?.click()
                                       }} className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs">Upload</button>
                                     </div>
-                                    {imgUrl ? <div className="mt-1 relative w-20 h-12"><Image src={imgUrl} alt="" fill className="object-cover rounded" /></div> : null}
+                                    {imgUrl ? <img src={imgUrl} alt="" className="mt-1 w-20 h-12 object-cover rounded" /> : null}
                                   </div>
                                 ))}
                               </div>
@@ -1196,7 +1281,7 @@ export default function AdminPanel() {
                               fileInputRef.current?.click()
                             }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                           </div>
-                          {project.image ? <div className="mt-2 relative w-32 h-20"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div> : null}
+                          {project.image ? <img src={String(project.image)} alt="" className="mt-2 w-32 h-20 object-cover rounded" /> : null}
                         </div>
                         <div>
                           <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Scope of Work</label>
@@ -1216,21 +1301,27 @@ export default function AdminPanel() {
                   ))}
                   
                   <button onClick={() => {
+                    const newId = 'project-' + Date.now()
+                    const existingOrders = (projects as Array<Record<string, unknown>>)
+                      .map(p => (typeof p.order === 'number' ? p.order : Number(p.order)))
+                      .filter(n => Number.isFinite(n)) as number[]
+                    const nextOrder = existingOrders.length ? (Math.max(...existingOrders) + 1) : ((projects as Array<Record<string, unknown>>).length + 1)
                     const newProject = {
-                      id: Date.now().toString(),
+                      id: newId,
                       title: 'NEW PROJECT',
                       subtitle: 'Project subtitle',
-                      image: '/placeholder.avif',
-                      heroImage: '/placeholder.avif',
-                      href: '/projects/new-project',
+                      image: '',
+                      heroImage: '',
+                      href: '/projects/' + newId,
+                      order: nextOrder,
                       features: ['Feature 1'],
                       year: '2024',
                       client: 'Client Name',
                       description: 'Project description',
                       heroTitle: ['NEW', 'PROJECT'],
                       sectionTitle: 'Section title',
-                      galleryImages: [],
-                      carouselSlides: [],
+                      galleryImages: ['', ''],
+                      carouselSlides: [['', '']],
                       nextProjects: []
                     }
                     updateNestedValue(['projects'], [...projects, newProject])
@@ -1438,7 +1529,7 @@ export default function AdminPanel() {
                             fileInputRef.current?.click()
                           }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
                         </div>
-                        {project.image ? <div className="mt-2 relative w-32 h-20"><Image src={String(project.image)} alt="" fill className="object-cover rounded" /></div> : null}
+                        {project.image ? <img src={String(project.image)} alt="" className="mt-2 w-32 h-20 object-cover rounded" /> : null}
                       </div>
                       <div>
                         <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Description</label>
@@ -1624,7 +1715,8 @@ export default function AdminPanel() {
                       email: '',
                       phoneDisplay: '',
                       phoneHref: '',
-                      imageSrc: ''
+                      imageSrc: '',
+                      mapUrl: ''
                     }]
                     updateNestedValue(['contactPage', 'offices'], newOffices)
                   }} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">+ Add Office</button>
@@ -1668,7 +1760,7 @@ export default function AdminPanel() {
                         }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="grid grid-cols-1 gap-4 mb-4">
                       <div>
                         <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Phone Display</label>
                         <input type="text" value={String(office.phoneDisplay || '')} onChange={(e) => {
@@ -1677,20 +1769,19 @@ export default function AdminPanel() {
                           updateNestedValue(['contactPage', 'offices'], newOffices)
                         }} className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
                       </div>
-                      <div>
-                        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Office Image</label>
-                        <div className="flex gap-2">
-                          <input type="text" value={String(office.imageSrc || '')} onChange={(e) => {
-                            const newOffices = [...((contactPage?.offices as Array<Record<string, unknown>>) || [])]
-                            newOffices[i] = { ...newOffices[i], imageSrc: e.target.value }
-                            updateNestedValue(['contactPage', 'offices'], newOffices)
-                          }} className="flex-1 bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base" />
-                          <button onClick={() => {
-                            setUploadTarget({ path: ['contactPage', 'offices', String(i), 'imageSrc'] })
-                            fileInputRef.current?.click()
-                          }} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">Upload</button>
-                        </div>
-                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Map URL (Google Maps link or coordinates)</label>
+                      <input
+                        type="text"
+                        value={String((office as any).mapUrl || '')}
+                        onChange={(e) => {
+                          const newOffices = [...((contactPage?.offices as Array<Record<string, unknown>>) || [])]
+                          newOffices[i] = { ...newOffices[i], mapUrl: e.target.value }
+                          updateNestedValue(['contactPage', 'offices'], newOffices)
+                        }}
+                        className="w-full bg-white text-gray-900 rounded-xl p-4 border border-gray-300 text-base"
+                      />
                     </div>
                     <button onClick={() => {
                       const newOffices = ((contactPage?.offices as Array<Record<string, unknown>>) || []).filter((_, idx) => idx !== i)

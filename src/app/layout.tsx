@@ -99,8 +99,18 @@ const montserrat = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Nabshy New - Branding Studio',
-  description: 'Modern branding studio website built with React, Next.js, TypeScript, and Tailwind CSS. Specializing in elevating brands through the power of storytelling.',
+  title: {
+    default: 'NABSHY',
+    template: 'NABSHY | %s',
+  },
+  description:
+    'Modern branding studio website built with React, Next.js, TypeScript, and Tailwind CSS. Specializing in elevating brands through the power of storytelling.',
+  icons: {
+    icon: [
+      { url: '/Logoicon-01.png', type: 'image/png', rel: 'icon' },
+      { url: '/favicon.ico', type: 'image/x-icon', rel: 'shortcut icon' },
+    ],
+  },
 }
 
 export const viewport: Viewport = {

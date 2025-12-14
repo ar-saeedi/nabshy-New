@@ -14,6 +14,7 @@ interface Office {
   phoneDisplay: string
   phoneHref: string
   imageSrc: string
+  mapUrl?: string
 }
 
 interface ContactContent {
@@ -52,14 +53,26 @@ export default function Contact() {
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-reform-red flex items-center justify-center">
-        <div className="text-reform-black text-2xl font-bold animate-pulse">Loading...</div>
-      </div>
+      <div className="min-h-screen bg-reform-red" />
     )
   }
 
   const contactPage = content.contactPage
   const office = contactPage.offices[activeOfficeIndex]
+  const officeId = office?.id
+  const defaultMapQuery =
+    officeId === 'tehran'
+      ? 'nabshy.agency, Tehran Province, Tehran, Nelson Mandela Blvd, QC79+7CJ, Iran'
+      : officeId === 'mashhad'
+        ? 'loc:36.31857088975697,59.54457862919379'
+        : null
+  const effectiveMapQuery =
+    office?.mapUrl && office.mapUrl.trim() !== ''
+      ? office.mapUrl
+      : defaultMapQuery
+  const mapEmbedUrl = effectiveMapQuery
+    ? `https://www.google.com/maps?q=${encodeURIComponent(effectiveMapQuery)}&z=17&output=embed`
+    : null
 
   return (
     <div className="min-h-screen w-full bg-reform-red px-4 sm:px-6 md:px-8 py-6 md:py-8">
@@ -125,8 +138,20 @@ export default function Contact() {
           <div key={office.id} className="flex flex-col lg:flex-row gap-6 sm:gap-8 md:gap-10 lg:gap-16 xl:gap-20 pt-4 animate-slide-up">
             <div className="w-full lg:w-1/2">
               <div className="relative overflow-hidden rounded-none bg-white">
-                <Image src={office.imageSrc} alt={office.label} width={900} height={600} className="w-full h-full object-cover" priority />
-                <div className="absolute inset-x-0 bottom-0 bg-white/85 py-2 sm:py-3 px-3 sm:px-4">
+                {mapEmbedUrl ? (
+                  <div className="w-full h-[260px] sm:h-[320px] md:h-[380px] lg:h-[420px]">
+                    <iframe
+                      src={mapEmbedUrl}
+                      className="w-full h-full border-0"
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <Image src={office.imageSrc} alt={office.label} width={900} height={600} className="w-full h-full object-cover" priority />
+                )}
+                <div className="absolute inset-x-0 bottom-0 bg-white/85 py-2 sm:py-3 px-3 sm:px-4 z-10">
                   <p className="text-[11px] xs:text-[12px] sm:text-[13px] md:text-[14px] text-reform-black text-center">{office.label}</p>
                 </div>
               </div>
